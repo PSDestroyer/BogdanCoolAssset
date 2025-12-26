@@ -16,19 +16,11 @@ namespace GenesisStudio
             }
         }
 
-        public Quest quest;
-        public Player player;
-        
-        public class Quest
-        {
-            //TODO: Add actions
-        }
+        public Action OnQuestAdded;
+        public Action OnQuestCompleted;
 
-        public class Player
-        {
-            public Action OnMoneyChange;
-            
-        }
-        
+        public Action OnMenuOpened;
+        public Action OnMenuClosed;
+
     }
 }

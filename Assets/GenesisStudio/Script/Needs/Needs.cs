@@ -39,6 +39,39 @@ namespace GenesisStudio
             TYPE_FLUID_CONTAINER,
             
         };
+        
+        
+        public static IEnumerator Fade(this CanvasGroup cg, float from, float to, float duration)
+        {
+            float t = 0f;
+            cg.alpha = from;
+
+            while (t < duration)
+            {
+                t += Time.deltaTime;
+                cg.alpha = Mathf.Lerp(from, to, t / duration);
+                yield return null;
+            }
+
+            cg.alpha = to;
+        }
+
+        public static IEnumerator FadeIn(this CanvasGroup cg, float duration)
+        {
+            cg.gameObject.SetActive(true);
+            yield return cg.Fade(0f, 1f, duration);
+            cg.interactable = true;
+            cg.blocksRaycasts = true;
+        }
+
+        public static IEnumerator FadeOut(this CanvasGroup cg, float duration)
+        {
+            cg.interactable = false;
+            cg.blocksRaycasts = false;
+            yield return cg.Fade(1f, 0f, duration);
+            cg.gameObject.SetActive(false);
+        }
+        
 
 
         public static bool IsNearThePoint(this Transform t, Transform point)

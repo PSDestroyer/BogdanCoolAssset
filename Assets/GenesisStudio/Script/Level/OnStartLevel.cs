@@ -9,7 +9,7 @@ namespace GenesisStudio
         
         void Start()
         {
-            if (beginWithFade) GameManager.Instance.UI_FadeInScreen(levelName);
+            // if (beginWithFade) GameManager.Instance.UI_FadeInScreen(levelName);
         }
     }
 }

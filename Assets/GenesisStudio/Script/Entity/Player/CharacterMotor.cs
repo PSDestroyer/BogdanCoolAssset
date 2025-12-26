@@ -17,13 +17,6 @@ namespace GenesisStudio
         public CameraMotor CameraMotor => _cameraMotor;
         public CharacterController Controller { get; private set; }
 
-        [Header("TPS Settings")] 
-        [field: SerializeField] public bool IsTPS { get; private set; }
-        
-        
-        
-        [Header("FPS Settings")]
-        
         [SerializeField, Range(60f, 120f)] private float NormalFov;
         [SerializeField, Range(60f, 120f)] private float SpeedFov;
 
@@ -54,10 +47,6 @@ namespace GenesisStudio
             _canMove = true;  
             _cameraMotor.Initialize();
             
-            if (IsTPS)
-            {
-                _input.Subscribe(Needs.Use, _cameraMotor.ChangeShoulder);
-            }
         }
 
         public void Sprint(InputAction.CallbackContext ctx)
@@ -101,19 +90,7 @@ namespace GenesisStudio
 
             Move(dir + _velocity);
 
-            if (IsTPS)
-            {
-                if (_isMoving)
-                {
-                    transform.Rotate(Vector3.up * _input.LookInput.x * _cameraMotor.Sensivity * Time.deltaTime);
             
-                    Quaternion cameraRotation = _cameraMotor.transform.rotation;
-                    cameraRotation.x = 0;
-                    cameraRotation.z = 0;
-            
-                    transform.rotation = Quaternion.Lerp(transform.rotation, cameraRotation, 0.1f);
-                }
-            }
 
         }
 

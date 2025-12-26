@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using GenesisStudio;
-using GenesisStudio.Shooter;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,7 +22,6 @@ public class Player : CharacterMotor
     public ItemData TargetItem => _targetItem;
 
 
-    ShooterMotor _shooterMotor;
 
     [Serializable] public class Hands
     {
@@ -41,8 +39,6 @@ public class Player : CharacterMotor
         _input.Subscribe(Needs.Use, Input_UseItem);
         _interactDistance = InteractDistance;
 
-        _shooterMotor = GetComponent<ShooterMotor>();
-        _shooterMotor.Initialize(this);
     }
 
     public void SetTargetItem(ItemData target)
@@ -103,7 +99,7 @@ public class Player : CharacterMotor
             if (_holdingCoroutine != null)
                 StopCoroutine(_holdingCoroutine);
             _holdingCoroutine = null;
-            GameManager.Instance.UI_holdingValue = 0;
+            // GameManager.Instance.UI_holdingValue = 0;
         }
     }
 
@@ -120,7 +116,7 @@ public class Player : CharacterMotor
 
     private IEnumerator BeginHolding(float time, IInteractable interactable)
     {
-        GameManager.Instance.UI_holdingValue = 0;
+        // GameManager.Instance.UI_holdingValue = 0;
 
         float timer = 0;
         float value = 0;
@@ -128,7 +124,7 @@ public class Player : CharacterMotor
         {
             timer += Time.deltaTime;
             value = Time.deltaTime / time;
-            GameManager.Instance.UI_holdingValue += value;
+            // GameManager.Instance.UI_holdingValue += value;
             yield return null;
         }
 
@@ -152,7 +148,7 @@ public class Player : CharacterMotor
         }
 
         _holdingCoroutine = null;
-        GameManager.Instance.UI_holdingValue = 0;
+        // GameManager.Instance.UI_holdingValue = 0;
     }
 
     private void FixedUpdate()

@@ -32,7 +32,7 @@ namespace GenesisStudio
         }
         public void Open()
         {
-            InputManager.Instance.playerInput.actions[Needs.Cancel].performed -= GameManager.Instance.ToggleMenu;
+            // InputManager.Instance.playerInput.actions[Needs.Cancel].performed -= GameManager.Instance.ToggleMenu;
             InputManager.Instance.ChangeMap(Needs.UIMap);
             Time.timeScale = 0;
             isOpen = true;
@@ -41,16 +41,21 @@ namespace GenesisStudio
                 activePanel.SetActive(false);
             
             firstSelect.Select();
+            
+            GameEventBus.Instance.OnMenuOpened?.Invoke();
         }
         public void Close()  
         {
             InputManager.Instance.ChangeMap(Needs.PlayerMap);
-            InputManager.Instance.playerInput.actions[Needs.Cancel].performed += GameManager.Instance.ToggleMenu;
+            // InputManager.Instance.playerInput.actions[Needs.Cancel].performed += GameManager.Instance.ToggleMenu;
             Time.timeScale = 1;
             isOpen = false;
             menuCanvas.SetActive(false);
             if(activePanel)
                 activePanel.SetActive(false);
+            
+            
+            GameEventBus.Instance.OnMenuClosed?.Invoke();
         }
 
     }
