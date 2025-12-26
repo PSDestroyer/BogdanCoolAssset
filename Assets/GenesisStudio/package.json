@@ -1,0 +1,11 @@
+{
+  "name": "com.genesisdev.core",
+  "displayName": "Genesis Dev Core",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Core systems and utilities for Genesis Dev games.",
+  "dependencies": {
+    "com.unity.inputsystem": "1.7.0",
+    "com.unity.cinemachine": "2.9.7"
+  }
+}

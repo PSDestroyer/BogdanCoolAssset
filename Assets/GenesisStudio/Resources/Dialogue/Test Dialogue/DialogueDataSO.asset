@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fabc96654abe3a42b5aca128547d17a, type: 3}
+  m_Name: DialogueDataSO
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue
+  phrases:
+  - actor: {fileID: 11400000, guid: 9f790b2e890cfb444a8de15ddaf55e89, type: 2}
+    phrase: Im felling not good
+    voice: {fileID: 8300000, guid: 173c3abacac1394459bf1fd236bb83cb, type: 3}
+  - actor: {fileID: 11400000, guid: 4241ba52734e07b4e9451c11300b0473, type: 2}
+    phrase: Ha ha ha
+    voice: {fileID: 8300000, guid: e575b4d997560bb4284e0e0fc1b475ec, type: 3}
