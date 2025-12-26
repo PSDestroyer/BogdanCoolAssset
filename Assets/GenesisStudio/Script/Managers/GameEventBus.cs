@@ -16,8 +16,8 @@ namespace GenesisStudio
             }
         }
 
-        public Action OnQuestAdded;
-        public Action OnQuestCompleted;
+        public Action<QuestGameObject> OnQuestAdded;
+        public Action<QuestGameObject> OnQuestCompleted;
 
         public Action OnMenuOpened;
         public Action OnMenuClosed;

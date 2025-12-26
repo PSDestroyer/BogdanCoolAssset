@@ -32,10 +32,6 @@ public class GameManager : Singleton<GameManager>
     {
         if(player == null) player = FindAnyObjectByType<Player>();
     }
-
-    private void InitializePlacedObjects()
-    {
-    }
     
     public void PlayerEnable(bool value)
     {

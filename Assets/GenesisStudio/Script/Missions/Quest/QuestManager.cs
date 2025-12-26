@@ -17,6 +17,7 @@ namespace GenesisStudio
             data.Params.QuestGameObject = _activeQuestGO;
             data.Params.Player = GameManager.Instance.Player;
             data.QuestType.Initialize(data.Params);
+            GameEventBus.Instance.OnQuestAdded?.Invoke(_activeQuestGO);
             return _activeQuestGO;
         }
 
@@ -53,6 +54,7 @@ namespace GenesisStudio
         {
             if (_activeQuestGO == null) return;
             _activeQuestGO.Complete();
+            GameEventBus.Instance.OnQuestCompleted?.Invoke(_activeQuestGO);
         }
     }
 }
