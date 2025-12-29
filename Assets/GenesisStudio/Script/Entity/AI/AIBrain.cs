@@ -20,7 +20,6 @@ namespace GenesisStudio
         public NavMeshAgent Agent => _agent;
         public StateMachine stateMachine => _stateMachine;
 
-        // TODO: Implement a sight to detect objects in angle of view.
         public float angleOfView = 120f;
         public float origin = 1f;
         public float sightDistance = 10f;
@@ -111,28 +110,16 @@ namespace GenesisStudio
             stateMachine.ChangeState(new FollowThePathState(newPath));
         }
 
-        public override void AddItem(ItemData item)
+        protected override void OnAddItem(ItemData item)
         {
-            Inventory.AddItem(item);
-            if (!QuestManager.Instance.IsActiveQuest) return;
-            if (QuestManager.Instance.ActiveQuest is DeliverQuest dq)
-            {
-                Debug.Log("Delivered");
-                dq.OnItemDelivered(item);
-            }
         }
 
-        public override void RemoveItem(ItemData item)
+        protected override void OnRemoveItem(ItemData item)
         {
-            Inventory.RemoveItem(item);
         }
 
-        public override bool HasItem(ItemData item)
-        {
-            throw new NotImplementedException();
-        }
 
-        public override Inventory.ItemInfo GetSelectedItem()
+        public override Inventory.ItemInfo SelectedItem()
         {
             throw new NotImplementedException();
         }
@@ -152,22 +139,12 @@ namespace GenesisStudio
             throw new NotImplementedException();
         }
 
-        public override void AddItem(ItemData item, int amount)
+        protected override void OnAddItem(ItemData item, int amount)
         {
-            Inventory.AddItems(item, amount);
-            for (int i = 0; i < amount; i++)
-            {
-                if (!QuestManager.Instance.IsActiveQuest) return;
-                if (QuestManager.Instance.ActiveQuest is DeliverQuest dq)
-                {
-                    dq.OnItemDelivered(item);
-                }
-            }
         }
 
-        public override void RemoveItem(ItemData item, int amount)
+        protected override void OnRemoveItem(ItemData item, int amount)
         {
-            throw new NotImplementedException();
         }
     }
 }

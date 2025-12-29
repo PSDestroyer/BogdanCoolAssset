@@ -11,7 +11,7 @@ namespace GenesisStudio
 {
     public class Mission : MonoBehaviour
     {
-        private QuestGameObject _activeQuest;
+        private Quest _activeQuest;
         private Coroutine _activeMissionCoroutine;
         private Queue<QuestInfo> _questQueue;
         
@@ -37,7 +37,7 @@ namespace GenesisStudio
                 var current = _questQueue.Dequeue();
 
                 _activeQuest = QuestManager.Instance.AddQuest(current);
-                if (_activeQuest.Data.IsAlreadyCompleted())
+                if (_activeQuest.IsAlreadyCompleted())
                 {
                     _activeQuest.Complete();
                 }

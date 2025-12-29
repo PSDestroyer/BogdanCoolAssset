@@ -6,19 +6,23 @@ using UnityEngine.Events;
 public abstract class Quest : ScriptableObject
 {
     protected string _task;
-    protected QuestGameObject _questGameObject;
-    protected Player _player;
+    protected ICharacter _player;
     private UnityEvent _onComplete;
     public string Task => _task;
+    public bool IsComplete { get; private set; }
+    private string baseTask;
 
     public abstract bool IsAlreadyCompleted();
 
     public void Initialize(QuestParams @params)
     {
-        _questGameObject = @params.QuestGameObject;
+        IsComplete = false;
         _task = @params.Task;
+        baseTask = _task;
         _player = @params.Player;
         OnInitialize(@params);
+        Debug.Log("Quest Initialized with task" + _task);
+        GameEventBus.Instance.OnQuestAdded?.Invoke(this, @params);
     }
 
     public abstract void OnInitialize(QuestParams @params);
@@ -26,8 +30,8 @@ public abstract class Quest : ScriptableObject
 
     public void Complete()
     {
-        _questGameObject.Complete();
-        _questGameObject = null;
+        Debug.Log("Quest Completed with task" + _task);
+        IsComplete = true;
         _player = null;
         OnComplete();
     }
@@ -41,13 +45,18 @@ public abstract class Quest : ScriptableObject
     {
 
     }
+
+    public void AppendToTask(string additional)
+    {
+        string add = $"{baseTask} {additional}";
+        _task = add;
+    }
 }
 
 [Serializable]
 public class QuestParams
 {
-    public QuestGameObject QuestGameObject { get; set;}
-    public Player Player { get; set;}
+    public ICharacter Player { get; set;}
     [field: SerializeField] public string Task { get; private set;}
     [field: SerializeField] public Transform Target_point {get; private set;}
     [field: SerializeField] public NPC Target_npc {get; private set;}

@@ -16,25 +16,22 @@ namespace GenesisStudio
             }
         }
         [field: SerializeField] private int Amount;
-
         [field: SerializeField] public bool Hold { get; set; }
         [field: SerializeField] public float HoldTime { get ; set; }
 
         public void Interact(object sender)
         {
-            if (sender is Brain b)
+            if (sender is ICharacter character)
             {
-                AddItemToBrain(b);
+                AddAndDestroy(character);
             }       
         }
 
-        protected virtual void AddItemToBrain(Brain b)
+        protected virtual void AddAndDestroy(ICharacter character)
         {
-            if (b.CanAdd(this))
-            {
-                b.AddItem(data);
-                Destroy(gameObject);
-            }
+            character.Inventory().AddItem(data);
+            
+            Destroy(gameObject);
         }
 
         private void Awake()
@@ -44,7 +41,7 @@ namespace GenesisStudio
 
         private void Start()
         {
-            ToggleOutline(false);
+            //ToggleOutline(false);
             Initialize();
         }
 

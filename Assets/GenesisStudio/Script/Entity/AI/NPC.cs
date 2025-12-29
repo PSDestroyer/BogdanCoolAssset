@@ -15,9 +15,7 @@ namespace GenesisStudio
         {
             get
             {
-                bool quest = false;
-                quest = QuestManager.Instance.IsActiveQuest ? (QuestManager.Instance.ActiveQuestGO.DataParams.Target_npc == this) : false;
-                return quest || Dialogue != null;
+                return true;
             }
         }
         public bool Hold { get; set; }
@@ -32,8 +30,10 @@ namespace GenesisStudio
 
         public virtual void Interact(object sender)
         {
-            if (sender is Player player)
+            if (sender is ICharacter player)
             {
+                Debug.Log($"{player}");
+                player.GiveItem(this, player.Inventory().GetSelectedItem.Data);
                 if (Dialogue != null)
                 {
                     DialogueManager.Instance.StartDialogue(Dialogue);
@@ -42,17 +42,6 @@ namespace GenesisStudio
                         if (Talkq is TalkQuest tq)
                         {
                             tq.DialoguePlayed = true;
-                        }
-                    }
-                }
-
-                if (QuestManager.Instance.HasActiveQuest(out var Deliverq))
-                {
-                    if (player.TryGiveTargetItem(this, out var targetItem))
-                    {
-                        if (Deliverq is DeliverQuest dq)
-                        {
-                            dq.OnItemDelivered(targetItem);
                         }
                     }
                 }

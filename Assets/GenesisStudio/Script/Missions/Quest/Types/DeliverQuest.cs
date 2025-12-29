@@ -10,9 +10,7 @@ namespace GenesisStudio
     public class DeliverQuest : Quest
     {
         ItemData DeliverItem;
-        int DeliverAmount;
         NPC DeliverTarget;
-        int Delivered;
 
         public override bool IsAlreadyCompleted()
         {
@@ -23,24 +21,25 @@ namespace GenesisStudio
         {
             DeliverTarget = null;
             DeliverItem = null;
-            DeliverAmount = 0;
-            Delivered = 0;
+            GameEventBus.Instance.OnItemAdded -= OnItemDelivered;
         }
 
         public override void OnInitialize(QuestParams @params)
         {
             DeliverTarget = @params.Target_npc;
             DeliverItem = @params.Target_item;
-            _player.SetTargetItem(@params.Target_item);
-            DeliverAmount = @params.Amount;
-            Delivered = 0; 
+            GameEventBus.Instance.OnItemAdded += OnItemDelivered;
         }
 
-        public void OnItemDelivered(ItemData item)
+        public void OnItemDelivered(ICharacter character, ItemData item)
         {
-            if (item == DeliverItem)
-                Complete();
-        }
+            Debug.Log($"Check For Quest {character}");
 
+            if (character is NPC target && target == DeliverTarget)
+            {
+                if (item == DeliverItem)
+                        Complete();
+            }
+        }
     }
 }

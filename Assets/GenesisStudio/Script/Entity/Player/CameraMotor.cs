@@ -11,29 +11,32 @@ namespace GenesisStudio
     {
         [field: SerializeField] public CinemachineCamera camera { get; private set; }
         [field: NonSerialized] public CharacterMotor Body;
+        [SerializeField] private float sensivity;
         public float Sensivity
         {
-            get => SaveManager.Instance.saveData.sensivity;
+            get => sensivity;
             set
             {
-                if (value <= 0)
+                sensivity = value;
+                if (sensivity <= 0)
                 {
-                    SaveManager.Instance.saveData.sensivity = 0;
-                    return;
+                    sensivity = 0;
                 }
-                SaveManager.Instance.saveData.sensivity = value;
+                SaveManager.Instance.saveData.sensivity = sensivity;
             }
         } 
         private bool _rightShoulder;
         
         public Ray ray => new Ray(camera.transform.position, camera.transform.forward);
-        public bool canRotate { get; set; }
+        public bool canRotate;
         
         private float xRotation;
         private Coroutine _changeFOVCoroutine;
 
         public void Initialize()
         {
+            Sensivity = SaveManager.Instance.saveData.sensivity;
+            canRotate = true;
             Cursor.lockState = CursorLockMode.Locked;
         }
 
@@ -47,7 +50,7 @@ namespace GenesisStudio
 
         private void LookAround()
         {
-            var input = InputManager.Instance.LookInput * Sensivity * 100 * Time.deltaTime;
+            var input = InputManager.Instance.LookInput * Sensivity * Time.deltaTime;
 
             xRotation -= input.y;
             xRotation = Mathf.Clamp(xRotation, -70f, 70f);

@@ -5,13 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
 namespace GenesisStudio
 {
     [Serializable]
     public class Inventory  
     {
-        [field: SerializeField]public int MaxItems { get; private set; } = 2;
+        [field: SerializeField] public int MaxItems { get; private set; } = 2;
         public int CurrentItems => items.Count;
         private ItemInfo _selectedItem;
         public List<ItemInfo> items = new List<ItemInfo>();
@@ -19,13 +20,15 @@ namespace GenesisStudio
         public ItemInfo GetSelectedItem => _selectedItem;
         public ItemInfo GetItemByData(ItemData data) => items.FirstOrDefault(i => i.Data == data);
 
+        private ICharacter _character;
 
-        public IEnumerator Initialize(List<ItemInfo> default_items = null)
+        public IEnumerator Initialize(ICharacter character, List<ItemInfo> default_items = null)
         {
             if (default_items != null)
             {
                 items = default_items;
             }
+            _character = character;
             yield return null;
         }
 
@@ -49,7 +52,8 @@ namespace GenesisStudio
                 Select(data);
             }
 
-            //Debug.Log($"Add item {data.ItemName} to inventory");
+            GameEventBus.Instance.OnItemAdded?.Invoke(_character, data);
+            Debug.Log($"Add item {data.ItemName} to inventory");
         }
 
         public void AddItems(ItemData data, int amount)
@@ -80,13 +84,14 @@ namespace GenesisStudio
                 }
             }
 
-            //Debug.Log($"Remove item {data.ItemName} from inventory");
+            GameEventBus.Instance.OnItemRemoved?.Invoke(_character, data);
+            Debug.Log($"Remove item {data.ItemName} from inventory");
         }   
 
         public void Select(ItemData toSelect)
         {
             _selectedItem = GetItemInfo(toSelect);
-            //Debug.Log($"Selected {toSelect.ItemName}");
+            Debug.Log($"Selected {toSelect.ItemName}");
         }
 
         public void SelectAt(int index)

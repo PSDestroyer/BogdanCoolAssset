@@ -8,35 +8,19 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Settings : MonoBehaviour
+public class Settings : UIScreen
 {
-    public GameObject[] ActiveTabs;
+    [SerializeField] private List<GameObject> Tabs;
     private GameObject activeTab;
 
     public Slider slider_sensivity;
-    public TMP_Dropdown dropdown_typeOfInput;
     
     private void Start()
     {
-        for (int i = 0; i < ActiveTabs.Length; i++)
-        {
-            ActiveTabs[i].SetActive(false);
-        }
-
         slider_sensivity.maxValue = 3f;
         slider_sensivity.value = SaveManager.Instance.saveData.sensivity;
         slider_sensivity.minValue = 0f;
         slider_sensivity.onValueChanged.AddListener(Save_Sensivity);
-        
-        
-        if(dropdown_typeOfInput == null) return;
-        dropdown_typeOfInput.options.Clear();
-        var schemes = InputManager.Instance.playerInput.actions.controlSchemes;
-        for (int i = 0; i < schemes.Count; i++)
-        {
-            dropdown_typeOfInput.options.Add(new TMP_Dropdown.OptionData(schemes[i].name));
-        }
-        dropdown_typeOfInput.onValueChanged.AddListener(Save_ChangeInput);
     }
 
     public void Save_Sensivity(float value)
@@ -44,11 +28,7 @@ public class Settings : MonoBehaviour
         slider_sensivity.value = value;
         GameManager.Instance.Player.CameraMotor.Sensivity = slider_sensivity.value;
     }
-    
-    public void Save_ChangeInput(Int32 value)
-    {
-        InputManager.Instance.playerInput.SwitchCurrentControlScheme(dropdown_typeOfInput.options[value].text);
-    }
+   
     
 
     public void ChangeTab(GameObject newTab)
@@ -56,5 +36,19 @@ public class Settings : MonoBehaviour
         if(activeTab) activeTab.SetActive(false);
         activeTab = newTab;
         activeTab.SetActive(true);
+    }
+
+    public override void OnShow()
+    {
+        for (int i = 0; i < Tabs.Count; i++)
+        {
+            Tabs[i].SetActive(false);
+        }
+        ChangeTab(Tabs[0]);
+    }
+
+    public override void OnHide()
+    {
+        
     }
 }

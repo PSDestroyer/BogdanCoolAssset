@@ -2,25 +2,20 @@ using System;
 
 namespace GenesisStudio
 {
-    public class GameEventBus
+    public class GameEventBus : Singleton<GameEventBus>
     {
-        private static GameEventBus _instance;
-        public static GameEventBus Instance
-        {
-            get
-            {
-                if (_instance == null)
-                    _instance = new GameEventBus();
-                
-                return _instance;
-            }
-        }
 
-        public Action<QuestGameObject> OnQuestAdded;
+        public Action<Quest, QuestParams> OnQuestAdded;
         public Action<QuestGameObject> OnQuestCompleted;
 
         public Action OnMenuOpened;
         public Action OnMenuClosed;
+
+
+        //Player
+
+        public Action<ICharacter, ItemData> OnItemAdded;
+        public Action<ICharacter, ItemData> OnItemRemoved;
 
     }
 }

@@ -18,7 +18,7 @@ public class Player : CharacterMotor
     private Coroutine _holdingCoroutine;
     private bool _stop;
     private ItemData _targetItem;
-    private Inventory.ItemInfo SelectedItem => GetSelectedItem();
+    private Inventory.ItemInfo SelectedItem => SelectedItem();
     public ItemData TargetItem => _targetItem;
 
 
@@ -73,6 +73,8 @@ public class Player : CharacterMotor
 
                         interactable.Interact(this);
                         CheckForInteract(interactable);
+
+                        Debug.Log($"Try to interact{interactable}");
                     }
 
                     return;
@@ -99,7 +101,7 @@ public class Player : CharacterMotor
             if (_holdingCoroutine != null)
                 StopCoroutine(_holdingCoroutine);
             _holdingCoroutine = null;
-            // GameManager.Instance.UI_holdingValue = 0;
+            
         }
     }
 
@@ -203,18 +205,18 @@ public class Player : CharacterMotor
         _currentObject.transform.Rotate(Vector3.up, 90 * direction.x);
     }
 
-    public bool TryGiveTargetItem(Brain to, out ItemData givenItem)
-    {
-        givenItem = null;
-        if (SelectedItem == null) return false;
-        if (SelectedItem.Data == _targetItem)
-        {
-            givenItem = _targetItem;
-            GiveItem(SelectedItem.Data, to);
-            return true;
-        }
+    //public bool TryGiveTargetItem(ICharacter to, out ItemData givenItem)
+    //{
+    //    givenItem = null;
+    //    if (SelectedItem == null) return false;
+    //    if (SelectedItem.Data == _targetItem)
+    //    {
+    //        givenItem = _targetItem;
+    //        GiveItem(SelectedItem.Data, to);
+    //        return true;
+    //    }
 
-        return false;
-    }
+    //    return false;
+    //}
 }
 

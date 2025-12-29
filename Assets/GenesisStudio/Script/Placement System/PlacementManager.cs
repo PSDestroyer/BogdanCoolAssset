@@ -55,7 +55,6 @@ namespace GenesisStudio
             _placeableObjects.Add(_instance);
             _instance = null;
             _isPlacing = false;
-            GameManager.Instance.Player.RemoveItem(_currentData);
         }
 
         public void StopPlacing()

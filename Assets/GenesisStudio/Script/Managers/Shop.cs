@@ -107,7 +107,7 @@ namespace GenesisStudio
                 if (response)
                 {
                     GameManager.Instance.money.Money -= data.Price;
-                    GameManager.Instance.Player.AddItem(data);
+                    //GameManager.Instance.Player.OnAddItem(data);
                 }
 
                 _objects.Find(obj => obj.data == data).Button.Select();

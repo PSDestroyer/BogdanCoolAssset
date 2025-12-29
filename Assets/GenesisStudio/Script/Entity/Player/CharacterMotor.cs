@@ -145,7 +145,7 @@ namespace GenesisStudio
         public void Input_UseItem(InputAction.CallbackContext ctx)
         {
             if(ctx.started)
-                UseItem(GetSelectedItem());
+                UseItem(SelectedItem());
         }
 
         public void UseItem(Inventory.ItemInfo info)
@@ -185,22 +185,18 @@ namespace GenesisStudio
                 if(index < 0) index = 0;
                 if(index > Inventory.CurrentItems) index = Inventory.CurrentItems;
                 SelectItem(index);
-                Debug.Log($"Selected Item {index}");
             }
         }
 
 
-        public override void AddItem(ItemData item)
+        protected override void OnAddItem(ItemData item)
         {
-            Inventory.AddItem(item);
-            if (!QuestManager.Instance.IsActiveQuest) return;
-            if(QuestManager.Instance.ActiveQuest is CollectableQuest cq)
-                cq.OnItemCollected(item);
+            
         }
 
-        public override void AddItem(ItemData item, int amount)
+        protected override void OnAddItem(ItemData item, int amount)
         {
-            Inventory.AddItems(item, amount);
+           
         }
 
         public override void OnGiveItem(ItemData item)
@@ -208,26 +204,16 @@ namespace GenesisStudio
             
         }
 
-
-        public override void RemoveItem(ItemData item)
+        protected override void OnRemoveItem(ItemData item)
         {
-            Inventory.RemoveItem(item);
-            if (!QuestManager.Instance.IsActiveQuest) return;
-            if (QuestManager.Instance.ActiveQuest is DeliverQuest dq)
-                dq.OnItemDelivered(item);
-        }
-
-        public override void RemoveItem(ItemData item, int amount)
-        {
-            Inventory.RemoveItems(item, amount);
             
         }
 
-        public override bool HasItem(ItemData item)
+        protected override void OnRemoveItem(ItemData item, int amount)
         {
-            return Inventory.HasItem(item); 
+            
+            
         }
-
 
         public override void SelectItem(int index)
         {

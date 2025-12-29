@@ -1,21 +1,17 @@
 ﻿using GenesisStudio;
 using System.Collections;
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 using Outline = GenesisStudio.Outline;
 using SaveManager = HalvaStudio.Save.SaveManager;
+
+
 public class GameManager : Singleton<GameManager>
 {
-    //TODO: Remove all UI elements
     
     public MoneyManager money;
-    private Player player;
-    
+    [SerializeField] private Player player;
 
     bool player_Enabled = true;
-    
 
     public Player Player => player;
     
@@ -30,7 +26,6 @@ public class GameManager : Singleton<GameManager>
     
     protected override void AwakeInit()
     {
-        if(player == null) player = FindAnyObjectByType<Player>();
     }
     
     public void PlayerEnable(bool value)

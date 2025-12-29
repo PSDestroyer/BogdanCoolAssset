@@ -3,22 +3,24 @@ namespace GenesisStudio
 {
     public class QuestManager : Singleton<QuestManager>
     {
-        [SerializeField] private QuestGameObject quest_Prefab;
-        [SerializeField] private Transform quest_Parent;
         private QuestGameObject _activeQuestGO;
-        public QuestGameObject ActiveQuestGO { get => _activeQuestGO; }
-        public Quest ActiveQuest { get => _activeQuestGO.Data; }
-        public bool IsActiveQuest => _activeQuestGO != null;
+        private Quest _activeQuest;
 
-        public QuestGameObject AddQuest(Mission.QuestInfo data)
+        public QuestGameObject ActiveQuestGO { get => _activeQuestGO; }
+        public Quest ActiveQuest { get => _activeQuest; }
+        public bool IsActiveQuest => _activeQuest != null;
+
+        public Quest AddQuest(Mission.QuestInfo data)
         {
-            _activeQuestGO = Instantiate(quest_Prefab, quest_Parent);
-            _activeQuestGO.Initialize(data.QuestType, data.Params);
-            data.Params.QuestGameObject = _activeQuestGO;
+            //var temp = new GameObject($"{(data.Params.Task)}");
+            //_activeQuestGO = temp.AddComponent<QuestGameObject>();
+            //_activeQuestGO.Initialize(data.QuestType, data.Params);
+            
             data.Params.Player = GameManager.Instance.Player;
-            data.QuestType.Initialize(data.Params);
-            GameEventBus.Instance.OnQuestAdded?.Invoke(_activeQuestGO);
-            return _activeQuestGO;
+
+            _activeQuest = data.QuestType;
+            _activeQuest.Initialize(data.Params);
+            return _activeQuest;
         }
 
         public void CompleteAndRemoveActiveQuest()
@@ -43,7 +45,7 @@ namespace GenesisStudio
         public bool HasActiveQuest(out Quest quest)
         {
             quest = null;
-            if(_activeQuestGO != null)
+            if(IsActiveQuest)
             {
                 quest = ActiveQuest;
                 return true;
@@ -52,9 +54,9 @@ namespace GenesisStudio
         }
         public void CompleteCurrentQuest()
         {
-            if (_activeQuestGO == null) return;
-            _activeQuestGO.Complete();
-            GameEventBus.Instance.OnQuestCompleted?.Invoke(_activeQuestGO);
+            if (!IsActiveQuest) return;
+            _activeQuest.Complete();
+            
         }
     }
 }
