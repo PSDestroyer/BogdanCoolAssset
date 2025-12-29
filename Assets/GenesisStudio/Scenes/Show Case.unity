@@ -697,9 +697,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3080249104e04bb48c8406e2075c965f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Inventory>k__BackingField:
-    <MaxItems>k__BackingField: 2
-    items: []
   _speed: 0
   <currentPath>k__BackingField: {fileID: 0}
   angleOfView: 101.8
@@ -1844,6 +1841,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6905880304664330894}
   - {fileID: 4624712037982488875}
   - {fileID: 148921403}
   - {fileID: 1195008575}
@@ -2779,7 +2777,7 @@ Transform:
   m_GameObject: {fileID: 1143427729}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.28, y: 0, z: 89.52}
+  m_LocalPosition: {x: -5.9, y: 0, z: 13}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4298,7 +4296,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 721f97decf17f9d46b7552b631f4593b, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: e56a7247fa8573b43ba6ec8be347850e, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1801760769
 Transform:
@@ -4315,6 +4313,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 592396165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1819226515 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 408408150188506186, guid: 8d605334b5857ea48bbb11648bcb6bfd, type: 3}
+  m_PrefabInstance: {fileID: 1608245846}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f1bd92e29acf6f4bbbb66e767de6c66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1874097193 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1953374700987145623, guid: 8d605334b5857ea48bbb11648bcb6bfd, type: 3}
@@ -7210,11 +7219,11 @@ Transform:
   m_GameObject: {fileID: 2651716437340773784}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -129.4, y: 0, z: 83.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3238016169501653113}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2004930491130826687
 MonoBehaviour:
@@ -9371,9 +9380,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6905880304664330894}
   - {fileID: 1027753009807779331}
-  - {fileID: 1898974721413183782}
   - {fileID: 4130673725697769815}
   m_Father: {fileID: 3221435870249680441}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11681,7 +11688,7 @@ Transform:
   m_GameObject: {fileID: 5432915325359952785}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.26, y: 0, z: 8.59}
+  m_LocalPosition: {x: 11.35, y: 0, z: 6.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12303,7 +12310,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
-  quest_Prefab: {fileID: 243716183835039994, guid: db7cf19357b631449a4bc139353149d4, type: 3}
 --- !u!222 &5218427512297572102
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12698,9 +12704,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3080249104e04bb48c8406e2075c965f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Inventory>k__BackingField:
-    <MaxItems>k__BackingField: 2
-    items: []
   _speed: 0
   <currentPath>k__BackingField: {fileID: 0}
   angleOfView: 101.8
@@ -14685,7 +14688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dontDestroy: 0
-  player: {fileID: 0}
+  player: {fileID: 1819226515}
   <mission_currentMission>k__BackingField: {fileID: 0}
   indicator_height: 1.36
   indicator_arriveRange: 5
@@ -15221,11 +15224,11 @@ Transform:
   m_GameObject: {fileID: 6926342680160796870}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -129.4, y: 0, z: 83.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3238016169501653113}
+  m_Father: {fileID: 592396165}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6922300714851453300
 GameObject:
@@ -16990,6 +16993,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroy: 0
   quest_Parent: {fileID: 0}
+  quest_Prefab: {fileID: 0}
   Screens:
   - {fileID: 8892900024161949388}
   - {fileID: 1771428929580428906}
@@ -18930,6 +18934,7 @@ SceneRoots:
   - {fileID: 327350651}
   - {fileID: 584899236}
   - {fileID: 695428204}
+  - {fileID: 1898974721413183782}
   - {fileID: 6155846759412999991}
   - {fileID: 1608245846}
   - {fileID: 373778570144842538}
