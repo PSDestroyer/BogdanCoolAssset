@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using GenesisStudio;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using InputManager = GenesisStudio.InputManager;
 
 namespace PlatformCharacterController
 {
@@ -116,7 +117,7 @@ namespace PlatformCharacterController
         //Input
         private float _horizontal;
         private float _vertical;
-        InputManager _playerInputs;
+        GenesisStudio.InputManager _playerInputs;
 
 
         private bool _jump;
