@@ -55,6 +55,13 @@ public class GameManager : Singleton<GameManager>
     {
         // _collectables.Add(collectable);
         maxCapacity++;
+        GameEventBus.Instance.OnItemCollected?.Invoke(0, maxCapacity);
+    }
+
+    public void Collect()
+    {
+        collected++;
+        GameEventBus.Instance.OnItemCollected?.Invoke(collected, maxCapacity);
     }
 
     public void Save()

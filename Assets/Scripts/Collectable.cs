@@ -13,8 +13,7 @@ public class Collectable : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Player"))
         {
-            GameManager.Instance.collected++;
-            GameEventBus.Instance.OnItemCollected?.Invoke();
+            GameManager.Instance.Collect();
             Destroy(gameObject);
         }
     }

@@ -2,13 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace GenesisStudio
 {
     public class UIManager : Singleton<UIManager>
     {
+        [Header("Player")] 
+        [SerializeField] private Slider healthSlider;
+        [SerializeField] private TMP_Text collected, needToCollect;
+        
+                
+        
+        [Space(10f)]
         [Header("Quest")]
         [SerializeField] private Transform quest_Parent;
         [SerializeField] private QuestGameObject quest_Prefab;
@@ -64,11 +70,19 @@ namespace GenesisStudio
         private void Start()
         {
             GameEventBus.Instance.OnQuestAdded += InitializeQuest;
+            GameEventBus.Instance.OnHealthChanged += OnHealthChanged;
+            GameEventBus.Instance.OnItemCollected += OnItemCollected;
 
 
             Screens.ForEach(s => s.Hide());
         }
-        
+
+        private void OnItemCollected(int collected, int needToCollect)
+        {
+            this.collected.text = collected.ToString();
+            this.needToCollect.text = needToCollect.ToString();
+        }
+
         public void Settings()
         {
             Show<Settings>();
@@ -108,6 +122,11 @@ namespace GenesisStudio
 
                 yield return null;
             }
+        }
+    
+        public void OnHealthChanged(float value)
+        {
+            healthSlider.value = value;
         }
     }
 }
