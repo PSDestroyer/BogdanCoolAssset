@@ -46,7 +46,7 @@ namespace GenesisStudio
             InputManager.Instance.playerInput.actions[Needs.Cancel].performed -= Interact;
             InputManager.Instance.ChangeMap(Needs.PlayerMap);
             interactUser = null;
-            GameManager.Instance.Player.SelectItem(0);
+            GameManager.Instance.Player.Inventory().SelectAt(0);
         }
         
         public virtual void Interact(object sender)

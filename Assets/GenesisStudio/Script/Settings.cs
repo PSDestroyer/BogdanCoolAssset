@@ -26,7 +26,7 @@ public class Settings : UIScreen
     public void Save_Sensivity(float value)
     {
         slider_sensivity.value = value;
-        GameManager.Instance.Player.CameraMotor.Sensivity = slider_sensivity.value;
+        // GameManager.Instance.Player.CameraMotor.Sensivity = slider_sensivity.value;
     }
    
     

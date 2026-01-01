@@ -39,6 +39,11 @@ namespace GenesisStudio
         {
             playerInput = GetComponent<PlayerInput>();
             playerInput.actions = DefaultInputActionAsset;
+            
+            Subscribe(Needs.Move, Move);
+            Subscribe(Needs.Look, Look);
+            Subscribe("Jump", Jump);
+            // Subscribe(Needs.Player_Sprint, Sprint);
         }
 
         #endregion
@@ -65,13 +70,7 @@ namespace GenesisStudio
             isSprinting = ctx.performed;
         }
 
-        private void Start()
-        {
-            Subscribe(Needs.Move, Move);
-            Subscribe(Needs.Look, Look);
-            Subscribe("Jump", Jump);
-            Subscribe(Needs.Player_Sprint, Sprint);
-        }
+       
 
         #endregion
 

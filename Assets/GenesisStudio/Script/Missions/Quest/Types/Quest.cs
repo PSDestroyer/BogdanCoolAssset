@@ -7,6 +7,7 @@ public abstract class Quest : ScriptableObject
 {
     protected string _task;
     protected ICharacter _player;
+    protected GameObject _playerGO;
     private UnityEvent _onComplete;
     public string Task => _task;
     public bool IsComplete { get; private set; }
@@ -20,6 +21,7 @@ public abstract class Quest : ScriptableObject
         _task = @params.Task;
         baseTask = _task;
         _player = @params.Player;
+        if(_player is MonoBehaviour mb) _playerGO = mb.gameObject;
         OnInitialize(@params);
         Debug.Log("Quest Initialized with task" + _task);
         GameEventBus.Instance.OnQuestAdded?.Invoke(this, @params);

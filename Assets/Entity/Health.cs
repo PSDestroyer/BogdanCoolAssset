@@ -3,9 +3,11 @@ using UnityEngine;
 
 namespace GenesisStudio
 {
-    [RequireComponent(typeof(Brain))]
+    [RequireComponent(typeof(ICharacter))]
     public class Health : MonoBehaviour
     {
+        ICharacter _character;
+        private float _heatlh;
         public float Heatlh
         {
             get => _heatlh;
@@ -17,17 +19,15 @@ namespace GenesisStudio
                     Die();
                 }
                 _heatlh = value;
+                GameEventBus.Instance.OnHealthChanged(_heatlh);
             }
         }
         
         
-        
-        private Brain _brain;
-        private float _heatlh;
 
         private void Awake()
         {
-            _brain = GetComponent<Brain>();
+            _character = GetComponent<ICharacter>(); 
             Heatlh = 100f;
         }
         

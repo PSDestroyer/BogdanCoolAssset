@@ -1,49 +1,60 @@
-﻿using GenesisStudio;
+﻿using System;
+using GenesisStudio;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using Outline = GenesisStudio.Outline;
 using SaveManager = HalvaStudio.Save.SaveManager;
 
 
 public class GameManager : Singleton<GameManager>
 {
-    
+
     public MoneyManager money;
-    [SerializeField] private Player player;
+    [SerializeField] private GameObject player;
 
-    bool player_Enabled = true;
-
-    public Player Player => player;
+    public ICharacter Player => player.GetComponent<ICharacter>();
     
-    [field: SerializeField] public Mission mission_currentMission { get; set; }
 
     public float indicator_height = 2f;
     public float indicator_arriveRange = 2f;
     public Color indicator_color = Color.yellowNice;
 
-    private Outline currentOutline;
-    [field: SerializeField] public OutlineManager OutlineManager { get; private set; }
+    
+
+    private List<Collectable> _collectables;
+    public int maxCapacity;
+    public int collected;
+    
+    
+    
+    public Mission mission_currentMission { get; set; }
+    
     
     protected override void AwakeInit()
     {
+        if(Player == null)
+            throw new Exception($"{player} does not exist or dont have ICharacter interface on it");
+        
+        _collectables = new List<Collectable>();
+        maxCapacity = 0;
+        collected = 0;
+
     }
-    
+
+    private void Start()
+    {
+        
+    }
+
     public void PlayerEnable(bool value)
     {
-        // player_Enabled = value;
-        // player.Controls(value);  
-        // UI_MainPanel.SetActive(value);
+       Player.Controls(value);  
     }
 
-
-    public void AddMoney(int amount)
+    public void AddCollectable(Collectable collectable)
     {
-        money.Money += amount;
-    }
-
-    public void RemoveMoney(int amount)
-    {
-        money.Money -= amount;
+        // _collectables.Add(collectable);
+        maxCapacity++;
     }
 
     public void Save()

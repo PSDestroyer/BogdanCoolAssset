@@ -13,9 +13,10 @@ namespace GenesisStudio
 
 
         //Player
-
         public Action<ICharacter, ItemData> OnItemAdded;
         public Action<ICharacter, ItemData> OnItemRemoved;
-
+        public Action OnItemCollected;
+        public Action<float> OnHealthChanged;
+        
     }
 }

@@ -50,13 +50,5 @@ namespace GenesisStudio
             
         }
 
-        public void ToggleOutline(bool value)
-        {
-            if(value) 
-                GameManager.Instance.OutlineManager.ShowOutline(_renderer, Color.green, 10);
-            else 
-                GameManager.Instance.OutlineManager.ClearOutline();
-        }
-
     }
 }

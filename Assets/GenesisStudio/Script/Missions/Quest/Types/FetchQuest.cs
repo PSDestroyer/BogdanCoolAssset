@@ -30,6 +30,6 @@ public class FetchQuest : Quest
         target = @params.Target_npc;
         to = @params.Target_point;
         indicator = to.AddIndicator(GameManager.Instance.indicator_height, GameManager.Instance.indicator_color);
-        target.stateMachine.ChangeState(new ChaseTargetState(chaseTarget: GameManager.Instance.Player.transform, target: to)); 
+        target.stateMachine.ChangeState(new ChaseTargetState(chaseTarget: _playerGO.transform, target: to)); 
     }
 }

@@ -113,11 +113,12 @@ namespace PlatformCharacterController
         //private vars
         private CharacterController _controller;
         private Vector3 _velocity;
-
+        private Health _health;
+        
         //Input
         private float _horizontal;
         private float _vertical;
-        GenesisStudio.InputManager _playerInputs;
+        InputManager _playerInputs;
 
 
         private bool _jump;
@@ -143,10 +144,27 @@ namespace PlatformCharacterController
         private Vector3 _move;
         private Vector3 _direction;
 
+        
+        
+        //abilities
+        private AbilityManager _abilityManager;
+        
+        
+        //proprieties
+        public bool IsGrounded => _isGrounded;
+        public float Health
+        {
+            get => _health.Heatlh; 
+            set => _health.Heatlh = value;
+        }
+
+        public CharacterController Motor => _controller;
+        
         private void Awake()
         {
             _playerInputs = InputManager.Instance;
             _controller = GetComponent<CharacterController>();
+            _abilityManager = GetComponent<AbilityManager>();
             _characterTransform = transform;
             _originalRunningSpeed = RunningSpeed;
         }
@@ -167,8 +185,6 @@ namespace PlatformCharacterController
             //capture input in this region, you can use PlayerInput class or simple replace "_jump = PlayerInputs.Jump()" whit  _jump = Input.GetButtonDown("buttonName") for example.
             _horizontal = _playerInputs.MoveInput.x;
             _vertical = _playerInputs.MoveInput.y;
-            
-            
             _jump = _playerInputs.isJumping;
             // _dash = _playerInputs.isSprinting;
             // _flyJetPack = _playerInputs.JetPack();
@@ -449,7 +465,7 @@ namespace PlatformCharacterController
             transform.LookAt(target, Vector3.up);
             transform.rotation = Quaternion.Euler(0, _characterTransform.eulerAngles.y, 0);
         }
-
+        
         //change the speed for the player
         public void ChangeSpeed(float speed)
         {
@@ -524,16 +540,14 @@ namespace PlatformCharacterController
 
         public void WantToDash(InputAction.CallbackContext context)
         {
-            if(context.canceled)
+            // Debug.Log("Want to dash");
+            if (DashCooldown > 0)
             {
-                if (DashCooldown > 0)
-                {
-                    _dash = false;
-                    return;
-                }
-
-                _dash = true;
+                _dash = false;
+                return;
             }
+
+            _dash = context.canceled;
         }
 
         #endregion
@@ -543,6 +557,7 @@ namespace PlatformCharacterController
         public void Controls(bool value)
         {
             CanControl = value;
+            _controller.enabled = value;
         }
         
         public Inventory Inventory()

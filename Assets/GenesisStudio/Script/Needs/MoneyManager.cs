@@ -18,8 +18,6 @@ namespace GenesisStudio
                 
                 char sign = newValue > 0 ? '+' : '-';
                 
-                // GameManager.Instance.AddFloatingText(newValue, sign);
-                
                 SaveManager.Instance.saveData.money = value;
                 if(_text != null)
                     _text.text = "$" + value;
