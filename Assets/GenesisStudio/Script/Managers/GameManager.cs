@@ -13,6 +13,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject player;
 
     public ICharacter Player => player.GetComponent<ICharacter>();
+    public GameObject PlayerObject => player;
     
 
     public float indicator_height = 2f;
@@ -51,17 +52,10 @@ public class GameManager : Singleton<GameManager>
        Player.Controls(value);  
     }
 
-    public void AddCollectable(Collectable collectable)
-    {
-        // _collectables.Add(collectable);
-        maxCapacity++;
-        GameEventBus.Instance.OnItemCollected?.Invoke(0, maxCapacity);
-    }
-
     public void Collect()
     {
         collected++;
-        GameEventBus.Instance.OnItemCollected?.Invoke(collected, maxCapacity);
+        GameEventBus.Instance.OnItemCollected?.Invoke(collected);
     }
 
     public void Save()

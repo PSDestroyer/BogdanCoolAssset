@@ -7,7 +7,7 @@ namespace GenesisStudio
     public class Health : MonoBehaviour
     {
         ICharacter _character;
-        private float _heatlh;
+        [SerializeField, Range(0,100f)] private float _heatlh;
         public float Heatlh
         {
             get => _heatlh;
@@ -19,13 +19,13 @@ namespace GenesisStudio
                     Die();
                 }
                 _heatlh = value;
-                GameEventBus.Instance.OnHealthChanged(_heatlh);
+                GameEventBus.Instance.OnHealthChanged?.Invoke(_heatlh);
             }
         }
         
         
 
-        private void Awake()
+        private void Start()
         {
             _character = GetComponent<ICharacter>(); 
             Heatlh = 100f;

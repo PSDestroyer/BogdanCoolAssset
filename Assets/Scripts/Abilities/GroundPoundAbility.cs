@@ -26,6 +26,7 @@ namespace Abilities
             while (!_controller.IsGrounded)
             {
                 _controller.Motor.Move(-Vector3.up * force * Time.deltaTime);
+                // _animator.SetTrigger("Airhit");
                 yield return null;
             }
 

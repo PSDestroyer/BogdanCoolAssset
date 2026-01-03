@@ -10,7 +10,7 @@ namespace GenesisStudio
     {
         [Header("Player")] 
         [SerializeField] private Slider healthSlider;
-        [SerializeField] private TMP_Text collected, needToCollect;
+        [SerializeField] private TMP_Text collected;
         
                 
         
@@ -71,16 +71,21 @@ namespace GenesisStudio
         {
             GameEventBus.Instance.OnQuestAdded += InitializeQuest;
             GameEventBus.Instance.OnHealthChanged += OnHealthChanged;
+            GameEventBus.Instance.OnGasChanged += OnGasChanged;
             GameEventBus.Instance.OnItemCollected += OnItemCollected;
 
-
+            GameEventBus.Instance.OnItemCollected.Invoke(0);
             Screens.ForEach(s => s.Hide());
         }
 
-        private void OnItemCollected(int collected, int needToCollect)
+        private void OnGasChanged(float val)
+        {
+            
+        }
+
+        private void OnItemCollected(int collected)
         {
             this.collected.text = collected.ToString();
-            this.needToCollect.text = needToCollect.ToString();
         }
 
         public void Settings()

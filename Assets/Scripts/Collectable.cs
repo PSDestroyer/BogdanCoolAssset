@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    private void Start()
-    {
-        GameManager.Instance.AddCollectable(this);
-    }
 
     private void OnTriggerEnter(Collider other)
     {

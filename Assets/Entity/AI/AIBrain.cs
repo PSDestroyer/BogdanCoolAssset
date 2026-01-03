@@ -10,7 +10,7 @@ namespace GenesisStudio
     [RequireComponent(typeof(NavMeshAgent), typeof(Animator))]
     public class AIBrain : Brain
     {
-        [field: SerializeField] public Path currentPath { get; protected set; }
+        public Path currentPath { get; protected set; }
         [field: NonSerialized] public bool isBusy;
         
         protected NavMeshAgent _agent;
@@ -18,13 +18,14 @@ namespace GenesisStudio
         protected Animator _animator;
         public Ray ray => new Ray(transform.position, transform.forward);
         public NavMeshAgent Agent => _agent;
+        public Animator Animator => _animator;
         public StateMachine stateMachine => _stateMachine;
 
         public float angleOfView = 120f;
         public float origin = 1f;
         public float sightDistance = 10f;
         float halfAngleRad => Mathf.Deg2Rad * (angleOfView / 2f);
-        float radius => Mathf.Tan(halfAngleRad) * sightDistance / 1.5f;
+        float radius = 2f;
         public bool ReachedDestination => !_agent.pathPending && _agent.remainingDistance <= _agent.stoppingDistance && (!_agent.hasPath || _agent.velocity.sqrMagnitude == 0f);
         public bool ReachedTarget(Transform target)
         {
@@ -94,8 +95,8 @@ namespace GenesisStudio
         {
             Vector3 origin = transform.position + Vector3.up * this.origin;
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(origin, Quaternion.Euler(0, angleOfView / 2, 0) * transform.forward * sightDistance);
-            Gizmos.DrawRay(origin, Quaternion.Euler(0, -angleOfView / 2, 0) * transform.forward * sightDistance);
+            // Gizmos.DrawRay(origin, Quaternion.Euler(0, angleOfView / 2, 0) * transform.forward * sightDistance);
+            // Gizmos.DrawRay(origin, Quaternion.Euler(0, -angleOfView / 2, 0) * transform.forward * sightDistance);
             
             Gizmos.DrawWireSphere(origin + transform.forward * sightDistance, radius);
         }

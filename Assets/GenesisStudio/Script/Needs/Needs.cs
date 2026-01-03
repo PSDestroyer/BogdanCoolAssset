@@ -74,11 +74,19 @@ namespace GenesisStudio
         
 
 
-        public static bool IsNearThePoint(this Transform t, Transform point)
+        public static bool IsNearThePoint(this Transform t, Transform point, float check_distance = 3.6f)
         {
             float dis = Vector3.Distance(t.position, point.position);
-            return dis <= 3.6f;
+            return dis <= check_distance;
         }
+        
+        public static bool GetChance(float chance)
+        {
+            if (chance >= 100) chance = 100;
+            float roll = Random.value * 100f;
+            return roll < chance;
+        }
+        
 
         public static bool IsSameTypeAs<T>(object obj)
         {

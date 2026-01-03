@@ -102,6 +102,12 @@ namespace PlatformCharacterController
         [Header("Inventory")] 
         [SerializeField] private List<Inventory.ItemInfo> default_items;
         private Inventory _inventory;
+
+        [Space(5f)] 
+        public Transform rHand;
+
+        public ShootController shootController;
+        [Space(5f)]
         
         private Vector3 _moveDirection;
         private Vector3 _activeGlobalPlatformPoint;
@@ -159,12 +165,18 @@ namespace PlatformCharacterController
         }
 
         public CharacterController Motor => _controller;
+        public GasMeter GasContainer { get; private set; }
+
+        public Transform CameraTransform => _cameraTransform;
+        
+        
         
         private void Awake()
         {
             _playerInputs = InputManager.Instance;
             _controller = GetComponent<CharacterController>();
             _abilityManager = GetComponent<AbilityManager>();
+            _health = GetComponent<Health>();   
             _characterTransform = transform;
             _originalRunningSpeed = RunningSpeed;
         }
@@ -551,6 +563,9 @@ namespace PlatformCharacterController
         }
 
         #endregion
+
+        
+        
         
         #region ICharacter Methods
 
@@ -579,6 +594,9 @@ namespace PlatformCharacterController
             
             _playerInputs.Subscribe(Needs.Use, FlyJetPack);
             _playerInputs.Subscribe(Needs.Player_Sprint, WantToDash);
+
+            GasContainer = new GasMeter();
+            shootController?.Initialize(this);
         }
 
         #endregion

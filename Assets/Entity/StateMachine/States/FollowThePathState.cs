@@ -11,15 +11,17 @@ namespace GenesisStudio
 {
     public class FollowThePathState : State
     {
-        Queue<Transform> points;
-        Coroutine pathCoroutine;
         Transform _destination;
+        public Transform _startPoint;
         private float _waitTimer;
         private int _waypointIndex;
         private Path path;
-
-        public FollowThePathState(Path path)
+        
+        
+        public FollowThePathState(Path path, Transform startPoint = null)
         {
+            _startPoint = startPoint;
+            
             if (path == null || path.points.Count == 0)
             {
                 Debug.LogWarning("Path is null or has no points.");
@@ -33,6 +35,11 @@ namespace GenesisStudio
         public override void Enter()
         {
             currentIndex = 0;
+            if(_startPoint != null)
+            {
+                _destination = _startPoint;
+                // _enemy.MoveInstantly(_startPoint.position);
+            }
         }
 
         public override void Perform()
@@ -40,10 +47,11 @@ namespace GenesisStudio
             if (_destination == null && path.points.Count > 0)
             {
                 _destination = path.points[currentIndex];
-                _brain.Move(_destination.position);
+                _brain.MoveInstantly(_destination.position);
             }
 
-            if (_destination != null && _brain.Agent.remainingDistance < _brain.Agent.stoppingDistance)
+            
+            if (_destination != null && _brain.transform.IsNearThePoint(_destination, 2f))
             {
                 _waitTimer += Time.deltaTime;
                 if (_waitTimer > .5)
