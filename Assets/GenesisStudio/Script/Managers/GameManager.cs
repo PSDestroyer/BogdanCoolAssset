@@ -23,9 +23,7 @@ public class GameManager : Singleton<GameManager>
     
 
     private List<Collectable> _collectables;
-    public int maxCapacity;
     public int collected;
-    
     
     
     public Mission mission_currentMission { get; set; }
@@ -37,7 +35,6 @@ public class GameManager : Singleton<GameManager>
             throw new Exception($"{player} does not exist or dont have ICharacter interface on it");
         
         _collectables = new List<Collectable>();
-        maxCapacity = 0;
         collected = 0;
 
     }
@@ -58,6 +55,7 @@ public class GameManager : Singleton<GameManager>
         GameEventBus.Instance.OnItemCollected?.Invoke(collected);
     }
 
+    [ContextMenu(nameof(Save))]
     public void Save()
     {
         SaveManager.Instance.Save();

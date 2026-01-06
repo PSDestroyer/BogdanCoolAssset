@@ -1,5 +1,3 @@
-using System;
-using Abilities;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -8,7 +6,7 @@ public class Bomb : MonoBehaviour
     public Rigidbody rb;
     public GameObject explosionEffect;
     public float range = 6f;
-    public LayerMask enemyLayer;
+    public LayerMask damageableLayer;
     public float damagePerEnemy;
 
     private void Awake()
@@ -21,11 +19,13 @@ public class Bomb : MonoBehaviour
         GetComponent<MeshRenderer>().enabled = false;
         Instantiate(explosionEffect, transform.position, transform.rotation);
         
-        var enemies = Physics.OverlapSphere(transform.position, range, enemyLayer);
-        foreach (var obj in enemies)
+        var colliders = Physics.OverlapSphere(transform.position, range, damageableLayer);
+        foreach (var damageable in colliders)
         {
-            if(obj.TryGetComponent(out Enemy enemy))
-                enemy.Health -= damagePerEnemy;
+            if(damageable.TryGetComponent(out IDamageable component))
+            {
+                component.ApplyDamage(damagePerEnemy);
+            }
         }
         
         Destroy(gameObject);

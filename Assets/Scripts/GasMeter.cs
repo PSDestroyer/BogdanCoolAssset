@@ -1,11 +1,15 @@
 
+using System.Collections;
 using GenesisStudio;
+using UnityEngine;
 
 public class GasMeter
 {
     private float _gas;
     private float _maxGas;
-
+    private float _refillSpeed;    
+    
+    
     public float Gas
     {
         get => _gas;
@@ -18,7 +22,7 @@ public class GasMeter
             if(_gas <= 0)
                 _gas = 0;
             
-            GameEventBus.Instance.OnGasChanged.Invoke(_gas);
+            GameEventBus.Instance.OnGasChanged?.Invoke(_gas);
         }
     }
 
@@ -26,7 +30,17 @@ public class GasMeter
     {
         _gas = gas;
         _maxGas = maxGas;
+        _refillSpeed = 5;
     }
     
-    
+
+    public IEnumerator Refill()
+    {
+        while(Gas <= _maxGas)
+        {
+            Gas += _refillSpeed * Time.deltaTime;
+            yield return null;
+        }
+    }
+
 }

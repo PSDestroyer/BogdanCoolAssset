@@ -10,7 +10,7 @@ namespace Abilities
         [SerializeField] private float damagePerEnemy;
         [SerializeField] private float force;
         [SerializeField] private float maxRadius;
-        [SerializeField] private LayerMask enemyLayer;
+        [SerializeField] private LayerMask damageableLayer;
         
         
         protected override void Initialize()
@@ -31,15 +31,18 @@ namespace Abilities
             }
 
             float r = 0f;
-            Collider[] enemies = new Collider[6];
+            Collider[] colliders = new Collider[6];
             while (r < maxRadius)
             {
                 r += force/5 * Time.deltaTime;
-                enemies = Physics.OverlapSphere(_controller.LowZonePosition.position, r, enemyLayer);
+                colliders = Physics.OverlapSphere(_controller.LowZonePosition.position, r, damageableLayer);
             }
-            foreach (var enemy in enemies)
+            foreach (var damageable in colliders)
             {
-                enemy.GetComponent<Enemy>().Health -= damagePerEnemy;
+                if(damageable.TryGetComponent(out IDamageable component))
+                {
+                    component.ApplyDamage(damagePerEnemy);
+                }
             }
             _controller.CanControl = true;
         }

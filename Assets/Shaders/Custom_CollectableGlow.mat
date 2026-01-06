@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   disabledShaderPasses: []
   m_LockedProperties: 
@@ -25,9 +25,9 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _GlowStrength: 0
+    - _GlowStrength: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 0, a: 1}
-    - _GlowColor: {r: 1, g: 1, b: 0, a: 1}
+    - _BaseColor: {r: 0.8301887, g: 0.8133321, b: 0, a: 1}
+    - _GlowColor: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

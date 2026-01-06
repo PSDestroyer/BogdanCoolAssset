@@ -14,14 +14,6 @@ public class Settings : UIScreen
     private GameObject activeTab;
 
     public Slider slider_sensivity;
-    
-    private void Start()
-    {
-        slider_sensivity.maxValue = 3f;
-        slider_sensivity.value = SaveManager.Instance.saveData.sensivity;
-        slider_sensivity.minValue = 0f;
-        slider_sensivity.onValueChanged.AddListener(Save_Sensivity);
-    }
 
     public void Save_Sensivity(float value)
     {
@@ -38,17 +30,26 @@ public class Settings : UIScreen
         activeTab.SetActive(true);
     }
 
-    public override void OnShow()
+    protected override IEnumerator OnShow()
     {
         for (int i = 0; i < Tabs.Count; i++)
         {
             Tabs[i].SetActive(false);
         }
         ChangeTab(Tabs[0]);
+        yield return null;
     }
 
-    public override void OnHide()
+    protected override IEnumerator OnHide()
     {
-        
+        yield return null;
+    }
+
+    public override void Initialize()
+    {
+        slider_sensivity.maxValue = 3f;
+        slider_sensivity.value = SaveManager.Instance.saveData.sensivity;
+        slider_sensivity.minValue = 0f;
+        slider_sensivity.onValueChanged.AddListener(Save_Sensivity);
     }
 }

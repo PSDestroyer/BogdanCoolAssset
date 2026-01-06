@@ -5,6 +5,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 using _Assets._PlatformSpeciffics.Switch;
 using System.IO;
+using System.Linq;
 
 namespace HalvaStudio.Save
 {
@@ -89,7 +90,7 @@ namespace HalvaStudio.Save
             }
             else
             {
-                Debug.LogError("Save file not found. Using default data.");
+                Debug.Log("Save file not found. Using default data.");
                 returnObject = defaultSaveData ?? new SaveData();
             }
 
@@ -142,7 +143,54 @@ namespace HalvaStudio.Save
         public class SaveData
         {
             public float sensivity;
-            public int money;
+            [NonSerialized] public int money;
+
+
+            #region Stats
+
+            public int collected;
+            public float gas;
+            public float health;
+
+            #endregion
+
+
+            #region Ability
+            public List<AbilitySaveData> abilities = new List<AbilitySaveData>();
+            public class AbilitySaveData
+            {
+                public string id;
+                public int level;
+                public float cooldown, gasUse;
+
+                public AbilitySaveData()
+                {
+                    
+                }
+                
+                public AbilitySaveData(AbilityData ability)
+                {
+                    id = ability.ID();
+                    level = ability.Level;
+                    cooldown = ability.Cooldown;
+                    gasUse = ability.GasUse;
+                }
+            }
+
+            public bool Contains(Ability ab)
+            {
+                return abilities.FirstOrDefault(a => a.id == ab.Data.ID()) != null;
+            }
+            
+            public void SaveAbility(AbilitySaveData saveData)
+            {
+                if (!abilities.Contains(saveData))
+                {
+                    abilities.Add(saveData);
+                }
+            }
+
+            #endregion
         }
     }
 }

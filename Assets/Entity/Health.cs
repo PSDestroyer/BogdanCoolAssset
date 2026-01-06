@@ -1,4 +1,4 @@
-using System;
+using HalvaStudio.Save;
 using UnityEngine;
 
 namespace GenesisStudio
@@ -27,13 +27,14 @@ namespace GenesisStudio
 
         private void Start()
         {
-            _character = GetComponent<ICharacter>(); 
-            Heatlh = 100f;
+            _character = GetComponent<ICharacter>();
+            Heatlh = SaveManager.Instance.saveData.health;
+            
         }
         
         private void Die()
         {
-            throw new NotImplementedException();
+            Debug.Log($"{gameObject.name} is dead");
         }
        
     }

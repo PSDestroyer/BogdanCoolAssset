@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using HalvaStudio.Save;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,12 +9,6 @@ namespace GenesisStudio
 {
     public class UIManager : Singleton<UIManager>
     {
-        [Header("Player")] 
-        [SerializeField] private Slider healthSlider;
-        [SerializeField] private TMP_Text collected;
-        
-                
-        
         [Space(10f)]
         [Header("Quest")]
         [SerializeField] private Transform quest_Parent;
@@ -51,51 +46,61 @@ namespace GenesisStudio
         UIScreen _currentScreen;
 
 
-
-
-
-        public void Show<T>() where T : UIScreen
+        public void Show<T>(out T screen) where T : UIScreen
         {
+            screen = null;
             if(_currentScreen != null)
                 _currentScreen.Hide();
 
-            _currentScreen = Screens.Find(s => s.GetType() == typeof(T));
+            _currentScreen = Find<T>();
 
             if(_currentScreen == null)
-                throw new System.Exception($"<color=green>Norification Manager</color>: There is no type of {typeof(T)} Screen");
+                throw new System.Exception($"<color=green>UIManager</color>: There is no type of {typeof(T)} Screen");
 
             _currentScreen.Show();
+            screen = _currentScreen as T;
+        }
+
+        public void Find<T>(out T screen) where T : UIScreen
+        {
+            screen = Screens.Find(s => s.GetType() == typeof(T)) as T;
+        }
+        public T Find<T>() where T : UIScreen
+        {
+            return Screens.Find(s => s.GetType() == typeof(T)) as T;
+        }
+
+        public void HideCurrentScreen()
+        {
+            if(_currentScreen != null)
+                _currentScreen.Hide();
         }
 
         private void Start()
         {
             GameEventBus.Instance.OnQuestAdded += InitializeQuest;
-            GameEventBus.Instance.OnHealthChanged += OnHealthChanged;
-            GameEventBus.Instance.OnGasChanged += OnGasChanged;
-            GameEventBus.Instance.OnItemCollected += OnItemCollected;
-
-            GameEventBus.Instance.OnItemCollected.Invoke(0);
-            Screens.ForEach(s => s.Hide());
-        }
-
-        private void OnGasChanged(float val)
-        {
             
+            foreach (var s in Screens)
+            {
+                s.Initialize();
+                if(s.HideOnStart) s.Hide();
+            }
+            
+            GameEventBus.Instance.OnItemCollected?.Invoke(SaveManager.Instance.saveData.collected);
+            GameEventBus.Instance.OnGasChanged?.Invoke(SaveManager.Instance.saveData.gas);
+            GameEventBus.Instance.OnHealthChanged?.Invoke(SaveManager.Instance.saveData.health);
         }
 
-        private void OnItemCollected(int collected)
-        {
-            this.collected.text = collected.ToString();
-        }
+        
 
         public void Settings()
         {
-            Show<Settings>();
+            Show<Settings>(out _);
         }
 
         public void Menu()
         {
-            Show<Menu>();
+            Show<Menu>(out _);
         }
 
         public void InitializeQuest(Quest type, QuestParams data)
@@ -129,9 +134,6 @@ namespace GenesisStudio
             }
         }
     
-        public void OnHealthChanged(float value)
-        {
-            healthSlider.value = value;
-        }
+        
     }
 }

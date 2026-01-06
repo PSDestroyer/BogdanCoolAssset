@@ -1,21 +1,32 @@
+using System;
+using System.Collections;
 using UnityEngine;
 
 public abstract class UIScreen : MonoBehaviour
 {
-    public abstract void OnShow();
-    public abstract void OnHide();
+    protected abstract IEnumerator OnShow();
+    protected abstract IEnumerator OnHide();
+    public abstract void Initialize();
+    
+    Coroutine _activeCoroutine;
 
+    protected bool _hideOnStart = true;
+    
+    public bool HideOnStart => _hideOnStart;
+    
     public virtual void Show()
     {
-        gameObject.SetActive(true);
-        OnShow();
+        _activeCoroutine = StartCoroutine(Wrapper(OnShow));
     }
 
     public virtual void Hide()
     {
-        gameObject.SetActive(false);
-        OnHide();
+        _activeCoroutine = StartCoroutine(Wrapper(OnHide));
     }
 
-    
+    private IEnumerator Wrapper(Func<IEnumerator> coroutine)
+    {
+        yield return StartCoroutine(coroutine());
+        _activeCoroutine = null;
+    }
 }

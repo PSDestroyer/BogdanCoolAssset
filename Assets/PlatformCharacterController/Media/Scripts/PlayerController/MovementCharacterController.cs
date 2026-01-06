@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GenesisStudio;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using InputManager = GenesisStudio.InputManager;
@@ -107,6 +108,7 @@ namespace PlatformCharacterController
         public Transform rHand;
 
         public ShootController shootController;
+        [SerializeField] private float rayOrigin;
         [Space(5f)]
         
         private Vector3 _moveDirection;
@@ -120,6 +122,10 @@ namespace PlatformCharacterController
         private CharacterController _controller;
         private Vector3 _velocity;
         private Health _health;
+        private Ray _ray;
+        private RaycastHit _hit;
+        
+        
         
         //Input
         private float _horizontal;
@@ -149,7 +155,7 @@ namespace PlatformCharacterController
         private Vector3 _hitNormal;
         private Vector3 _move;
         private Vector3 _direction;
-
+        private Coroutine _gasCoroutine;
         
         
         //abilities
@@ -157,20 +163,51 @@ namespace PlatformCharacterController
         
         
         //proprieties
-        public bool IsGrounded => _isGrounded;
-        public float Health
+        public bool IsGrounded
         {
-            get => _health.Heatlh; 
-            set => _health.Heatlh = value;
+            get { return _isGrounded; }
         }
 
-        public CharacterController Motor => _controller;
+        public float Health
+        {
+            get { return _health.Heatlh; }
+            set { _health.Heatlh = value; }
+        }
+
+        public CharacterController Motor
+        {
+            get { return _controller; }
+        }
+
         public GasMeter GasContainer { get; private set; }
 
-        public Transform CameraTransform => _cameraTransform;
-        
-        
-        
+        public Transform CameraTransform
+        {
+            get { return _cameraTransform; }
+        }
+
+        public int Collectables
+        {
+            get { return GameManager.Instance.collected; }
+            set
+            {
+                GameManager.Instance.collected = value;
+                
+                if (GameManager.Instance.collected <= 0)
+                    GameManager.Instance.collected = 0;
+            }
+        }
+
+        public bool IsBlending
+        {
+            get
+            {
+                var activeBrain = CinemachineBrain.GetActiveBrain(0);
+                return activeBrain.IsBlending;
+            }
+        }
+
+
         private void Awake()
         {
             _playerInputs = InputManager.Instance;
@@ -562,11 +599,29 @@ namespace PlatformCharacterController
             _dash = context.canceled;
         }
 
+        public void Interact(InputAction.CallbackContext context)
+        {
+            // Debug.Log("Try interact");
+            _ray = new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
+            if (Physics.Raycast(_ray, out _hit, 6f))
+            {
+                if (_hit.transform.TryGetComponent(out AbilityUpgrade _abilityUpgrade))
+                {
+                    _abilityUpgrade.Interact(this);
+                }
+            }
+        }
+
         #endregion
 
+        public Vector3 direction;
         
-        
-        
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(_ray.origin, _ray.direction * 4f);
+        }
+
         #region ICharacter Methods
 
         public void Controls(bool value)
@@ -596,7 +651,27 @@ namespace PlatformCharacterController
             _playerInputs.Subscribe(Needs.Player_Sprint, WantToDash);
 
             GasContainer = new GasMeter();
+            _gasCoroutine = StartCoroutine(GasContainer.Refill());
+            
+            
             shootController?.Initialize(this);
+            
+            _playerInputs.Subscribe(Needs.Interact, Interact);
+                        
+        }
+
+
+        public void GasUpdate()
+        {
+            if(_gasCoroutine != null) StopCoroutine(_gasCoroutine);
+            _gasCoroutine = StartCoroutine(UpdateRefill(1f));
+        }
+
+        private IEnumerator UpdateRefill(float waitTime)
+        {
+            yield return new WaitForSeconds(waitTime);
+            StopCoroutine(_gasCoroutine);
+            _gasCoroutine = StartCoroutine(GasContainer.Refill());
         }
 
         #endregion

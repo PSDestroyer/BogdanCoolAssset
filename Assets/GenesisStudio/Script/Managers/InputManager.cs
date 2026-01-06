@@ -91,28 +91,34 @@ namespace GenesisStudio
                 return;
             }
 
+            string key = Key(action);
+
             if (_subscriptions.ContainsKey(actionName))
                 Unsubscribe(actionName); // Prevent duplicate subscriptions
 
-            _subscriptions[actionName] = callback;
+            _subscriptions[key] = callback;
             action.performed += callback;
             action.canceled += callback;
         }
-
         public void Unsubscribe(string actionName)
         {
             if (!_subscriptions.TryGetValue(actionName, out var callback))
                 return;
 
             InputAction action = playerInput.actions.FindAction(actionName);
+            
+            
             if (action != null)
             {
                 action.performed -= callback;
                 action.canceled -= callback;
             }
 
-            _subscriptions.Remove(actionName);
+            _subscriptions.Remove(Key(action));
         }
+        
+        string Key(InputAction action) => action.id.ToString();
+        
 
         public void EnableAll()
         {
@@ -125,6 +131,8 @@ namespace GenesisStudio
             foreach (var map in playerInput.actions.actionMaps)
                 map.Disable();
         }
+        
+        
 
         #endregion
     }

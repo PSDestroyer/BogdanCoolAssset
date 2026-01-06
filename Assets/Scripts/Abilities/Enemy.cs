@@ -8,7 +8,7 @@ using UnityEngine.AI;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour , IDamageable
 {
     [Header("Stats")] 
     private float _health;
@@ -23,8 +23,12 @@ public class Enemy : MonoBehaviour
                 Die();
             }
             _health = value;
-            GameEventBus.Instance.OnHealthChanged(_health);
         }
+    }
+
+    public void ApplyDamage(float damage)
+    {
+        Health -= damage;
     }
 
 
@@ -200,8 +204,7 @@ public class Enemy : MonoBehaviour
     {
         if(CanSeePlayer(out MovementCharacterController Player))
         {
-            Debug.Log("Enemy attacks player!");
-            // damage logic here
+            // Debug.Log("Enemy attacks player!");
             _animator.SetTrigger("Attack");
             Player.Health -= damage;
         }
@@ -226,11 +229,11 @@ public class Enemy : MonoBehaviour
 
         return false;
     }
-    
-    
-    private void Die()
+
+
+    public void Die()
     {
-        throw new System.NotImplementedException();
+        Destroy(gameObject);
     }
     // -------------------- DEBUG --------------------
 
