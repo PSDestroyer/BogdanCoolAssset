@@ -15,7 +15,9 @@ MonoBehaviour:
   name: A_Slap
   level: 1
   maxLevel: 5
+  upgradePrice: 0
   icon: {fileID: 0}
   runtimePrefab: {fileID: 3762595441214834196, guid: b47bc4d15000ba34ba27f785b0344cad, type: 3}
   cooldown: 0.2
   gasUse: 0
+  damage: 100

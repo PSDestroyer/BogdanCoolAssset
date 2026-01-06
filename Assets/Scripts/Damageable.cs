@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
     public class Damageable : MonoBehaviour, IDamageable
     {
-        private float _health;
+        [SerializeField, Range(1,100f)]private float _health;
         public float Health
         {
             get => _health;
@@ -16,6 +17,12 @@ using UnityEngine;
                 _health = value;
             }
         }
+
+        private void Start()
+        {
+            Health = _health;
+        }
+
         public void ApplyDamage(float damage)
         {
             Health -= damage;
