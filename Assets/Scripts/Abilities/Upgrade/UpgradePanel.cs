@@ -32,7 +32,7 @@ public class UpgradePanel : UIScreen
 
     protected override IEnumerator OnShow()
     {
-        player?.Controls(false);
+        player.enabled = false;
         foreach (var uo in upgrades)
         {
             uo.interactable = uo.IsActive;
@@ -52,7 +52,7 @@ public class UpgradePanel : UIScreen
         while(player.IsBlending)
             yield return null;
         
-        player.Controls(true);
+        player.enabled = true;
     }
 
     public override void Initialize()
