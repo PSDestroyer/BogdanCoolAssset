@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Cinemachine;
 using UnityEngine;
 
 namespace PlatformCharacterController
@@ -9,7 +10,7 @@ namespace PlatformCharacterController
         [Tooltip("This is the jumping forze of this plataform")]
         public float JumpForze = 4;
 
-        public Animator PlatformAnimator;
+        [HideIfNoComponent(typeof(Animator))] public Animator PlatformAnimator;
 
         private void OnTriggerStay(Collider other)
         {

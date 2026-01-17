@@ -122,7 +122,6 @@ namespace PlatformCharacterController
         private CharacterController _controller;
         private Vector3 _velocity;
         private Health _health;
-        private Ray _ray;
         private RaycastHit _hit;
         
         
@@ -207,6 +206,8 @@ namespace PlatformCharacterController
             }
         }
 
+        public Ray Ray => new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
+
 
         private void Awake()
         {
@@ -216,7 +217,7 @@ namespace PlatformCharacterController
             _health = GetComponent<Health>();   
             _characterTransform = transform;
             _originalRunningSpeed = RunningSpeed;
-        }
+        }   
 
         private void Start()
         {
@@ -602,8 +603,8 @@ namespace PlatformCharacterController
         public void Interact(InputAction.CallbackContext context)
         {
             // Debug.Log("Try interact");
-            _ray = new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
-            if (Physics.Raycast(_ray, out _hit, 6f))
+           
+            if (Physics.Raycast(Ray, out _hit, 6f))
             {
                 if (_hit.transform.TryGetComponent(out AbilityUpgrade _abilityUpgrade))
                 {
@@ -619,7 +620,7 @@ namespace PlatformCharacterController
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(_ray.origin, _ray.direction * 4f);
+            Gizmos.DrawLine(Ray.origin, Ray.direction * 4f);
         }
 
         #region ICharacter Methods

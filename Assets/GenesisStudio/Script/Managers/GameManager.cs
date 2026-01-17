@@ -14,26 +14,26 @@ public class GameManager : Singleton<GameManager>
 
     public ICharacter Player => player.GetComponent<ICharacter>();
     public GameObject PlayerObject => player;
-    
+
 
     public float indicator_height = 2f;
     public float indicator_arriveRange = 2f;
     public Color indicator_color = Color.yellowNice;
 
-    
+
 
     private List<Collectable> _collectables;
     public int collected;
-    
-    
+
+
     public Mission mission_currentMission { get; set; }
-    
-    
+
+
     protected override void AwakeInit()
     {
-        if(Player == null)
+        if (Player == null)
             throw new Exception($"{player} does not exist or dont have ICharacter interface on it");
-        
+
         _collectables = new List<Collectable>();
         collected = 0;
 
@@ -41,10 +41,15 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
+
+    }
+
+    public void LoadLevel(string levelName)
+    {
         
     }
 
-    public void PlayerEnable(bool value)
+public void PlayerEnable(bool value)
     {
        Player.Controls(value);  
     }

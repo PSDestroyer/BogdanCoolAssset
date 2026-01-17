@@ -1,3 +1,13 @@
 fileFormatVersion: 2
 guid: 87841fe009ac432192db45569177a48e
-timeCreated: 1767215927
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - <Data>k__BackingField: {fileID: 11400000, guid: fc0740f3d20e09d4f882aa464f83aebf, type: 2}
+  - hitBox: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

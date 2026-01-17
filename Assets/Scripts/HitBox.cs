@@ -8,10 +8,11 @@ public class HitBox : MonoBehaviour
 
     public bool active;
     
-    
-    
     private void OnTriggerEnter(Collider other)
     {
+        if(!active)
+            return;
+        
         if (other.gameObject.TryGetComponent<IDamageable>(out var damageable))
         {
             damageable.ApplyDamage(damage);

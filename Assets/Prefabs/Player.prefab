@@ -878,6 +878,7 @@ GameObject:
   m_Component:
   - component: {fileID: 441821476011663085}
   - component: {fileID: 493751318339026167}
+  - component: {fileID: 8470707193065984064}
   m_Layer: 0
   m_Name: D_coconut
   m_TagString: Untagged
@@ -923,6 +924,20 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.60953385, y: 0.6044653, z: 0.08840798}
   m_Center: {x: 0.19523606, y: -0.012592693, z: 0.07817855}
+--- !u!114 &8470707193065984064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 446966594288063667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 601fa40c35d142e8a7034edcb0134c44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  active: 0
 --- !u!1 &446987294243484039
 GameObject:
   m_ObjectHideFlags: 0
@@ -4456,7 +4471,7 @@ Transform:
   m_GameObject: {fileID: 935453354858122257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -13.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5760,8 +5775,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006442754855132879}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.18242373, y: 0.81752944, z: -0.38137203, w: 0.3910532}
-  m_LocalPosition: {x: -1.574776, y: 2.4941046, z: 1.2694654}
+  m_LocalRotation: {x: 0.14220957, y: 0.8517108, z: -0.29730153, w: 0.40740266}
+  m_LocalPosition: {x: -2.3621674, y: 2.49411, z: 1.9042053}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5822,10 +5837,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b5d7c088409d9a40b7b09aa707777f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TargetOffset: {x: 0, y: 0.69, z: 0}
+  TargetOffset: {x: 0, y: 0.44, z: 0}
   TrackerSettings:
     BindingMode: 4
-    PositionDamping: {x: 1, y: 1.02, z: 0}
+    PositionDamping: {x: 0, y: 0.5, z: 0}
     AngularDampingMode: 0
     RotationDamping: {x: 1, y: 1, z: 1}
     QuaternionDamping: 1
@@ -17572,7 +17587,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6269739544699282185
 Transform:
   m_ObjectHideFlags: 0
@@ -17621,7 +17636,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 77.5
   orthographic: 0
   orthographic size: 5
   m_Depth: 1
@@ -19821,8 +19836,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6655863148392451803}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.010771114, y: 0.96536845, z: -0.040377557, w: 0.25752163}
-  m_LocalPosition: {x: -0.89155746, y: 0.53999996, z: 1.5521698}
+  m_LocalRotation: {x: 0.14220957, y: 0.8517108, z: -0.29730153, w: 0.4074027}
+  m_LocalPosition: {x: -2.3621674, y: 2.49411, z: 1.9042053}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19862,7 +19877,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 90
+  field of view: 77.5
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
