@@ -8,7 +8,12 @@ public class LevelLoader : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            LevelManager.Instance.LoadScene(nextLevel);
+            Load();
         }
+    }
+
+    protected virtual void Load()
+    {
+        LevelManager.Instance.LoadScene(nextLevel);
     }
 }

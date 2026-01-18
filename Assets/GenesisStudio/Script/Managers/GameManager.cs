@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
 
     public MoneyManager money;
     [SerializeField] private GameObject player;
-
+    public Portal portal;
     public ICharacter Player => player.GetComponent<ICharacter>();
     public GameObject PlayerObject => player;
 
@@ -19,7 +19,7 @@ public class GameManager : Singleton<GameManager>
     public float indicator_height = 2f;
     public float indicator_arriveRange = 2f;
     public Color indicator_color = Color.yellowNice;
-
+    public List<Enemy> enemies;
 
 
     private List<Collectable> _collectables;
@@ -41,15 +41,12 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-
+        portal.Deactivate();
+        GameEventBus.Instance.OnEnemyDie += OnEnemyDie;
     }
 
-    public void LoadLevel(string levelName)
-    {
-        
-    }
 
-public void PlayerEnable(bool value)
+    public void PlayerEnable(bool value)
     {
        Player.Controls(value);  
     }
@@ -66,6 +63,22 @@ public void PlayerEnable(bool value)
         SaveManager.Instance.Save();
     }
 
+    private void OpenPortal()
+    {
+        portal.Activate();
+    }
+
+    private void OnEnemyDie(Enemy enemy)
+    {
+        if (enemies.Count <= 0) return;
+        
+        if (enemies.Contains(enemy))
+            enemies.Remove(enemy);
+
+        if(enemies.Count == 0)
+            OpenPortal();
+    }
+    
     public Coroutine InvokeCoroutineHelper(IEnumerator coroutine)
     {
         return StartCoroutine(coroutine);

@@ -65,7 +65,7 @@ public class AbilityManager : MonoBehaviour
         _abilityUpgrade.EnableAbility(instance);
     }
 
-    
+    public List<Ability> GetActiveAbilities() => _activeAbilities;
 
     public void UseAbility<T>() where T : Ability
     {

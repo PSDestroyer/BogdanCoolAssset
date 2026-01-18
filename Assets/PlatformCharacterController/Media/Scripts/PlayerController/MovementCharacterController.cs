@@ -208,6 +208,8 @@ namespace PlatformCharacterController
 
         public Ray Ray => new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
 
+        public AbilityManager AbilityManager => _abilityManager;
+
 
         private void Awake()
         {
@@ -235,10 +237,10 @@ namespace PlatformCharacterController
             //capture input in this region, you can use PlayerInput class or simple replace "_jump = PlayerInputs.Jump()" whit  _jump = Input.GetButtonDown("buttonName") for example.
             _horizontal = _playerInputs.MoveInput.x;
             _vertical = _playerInputs.MoveInput.y;
-            _jump = _playerInputs.isJumping;
+            // _jump = _playerInputs.isJumping;
             // _dash = _playerInputs.isSprinting;
             // _flyJetPack = _playerInputs.JetPack();
-            // _activeFall = _playerInputs.Parachute();
+            // _activeFall =  _playerInputs.isJumping;
 
             // //this invert controls 
             // if (_invertedControl)
@@ -249,10 +251,10 @@ namespace PlatformCharacterController
             //     _dash = PlayerInputs.Jump();
             // }
 
-            if (_jump && !HoldingObject)
-            {
-                Jump(JumpHeight);
-            }
+            // if (_jump && !HoldingObject)
+            // {
+            //     Jump(JumpHeight);
+            // }
 
             if (_dash && !HoldingObject)
             {
@@ -339,7 +341,7 @@ namespace PlatformCharacterController
                 //this activate or deactivate jet pack Object and effect.
                 JetPackObject.SetActive(Jetpack && _flyJetPack && JetPackFuel > 0 && !HoldingObject);
 
-                if (HaveSlowFall && !_isGrounded && _slowFall)
+                if (HaveSlowFall && !_isGrounded && _slowFall )
                 {
                     SlowFall();
                 }
@@ -408,6 +410,8 @@ namespace PlatformCharacterController
 
         public void Jump(float jumpHeight)
         {
+            // float time = jumpHeight / Mathf.Sqrt(jumpHeight * -2f * Gravity); timpul cat sare
+            
             if (!CanJump || !CanControl)
             {
                 return;
@@ -415,8 +419,8 @@ namespace PlatformCharacterController
 
             CurrentActivePlatform = null;
             //removing parachute if active;
-            _slowFall = false;
-            SlowFallObject.SetActive(false);
+            // _slowFall = false;
+            // SlowFallObject.SetActive(false);
 
             //
             if (_isGrounded)
@@ -426,6 +430,9 @@ namespace PlatformCharacterController
                 _doubleJump = true;
                 _velocity.y = 0;
                 _velocity.y += Mathf.Sqrt(jumpHeight * -2f * Gravity);
+
+                
+                
 
                 //Instantiate jump effect
                 if (JumpEffect)
@@ -600,6 +607,19 @@ namespace PlatformCharacterController
             _dash = context.canceled;
         }
 
+        public void Jump(InputAction.CallbackContext context)
+        {
+            _activeFall = context.performed;
+            if (context.started)
+                Jump(JumpHeight);
+            
+        }
+        
+        public void Parachute(InputAction.CallbackContext context)
+        {
+            
+        }
+
         public void Interact(InputAction.CallbackContext context)
         {
             // Debug.Log("Try interact");
@@ -650,6 +670,8 @@ namespace PlatformCharacterController
             
             _playerInputs.Subscribe(Needs.Use, FlyJetPack);
             _playerInputs.Subscribe(Needs.Player_Sprint, WantToDash);
+            _playerInputs.playerInput.actions["Jump"].started += Jump;
+            _playerInputs.playerInput.actions["Jump"].performed += Jump;
 
             GasContainer = new GasMeter();
             _gasCoroutine = StartCoroutine(GasContainer.Refill());

@@ -5,14 +5,14 @@ using UnityEngine;
     public class Damageable : MonoBehaviour, IDamageable
     {
 
-        [SerializeField] private bool CanDie;
-        [SerializeField, Range(1,100f)]private float _health;
+        [SerializeField] protected bool CanDie;
+        [SerializeField, Range(1,100f)] protected float _health;
         public float Health
         {
             get => _health;
             set
             {
-                if(CanDie)
+                if(!CanDie)
                 {
                     _health = -1;
                     return;
@@ -21,13 +21,13 @@ using UnityEngine;
                 if (value < 0)
                 {
                     _health = 0;
-                    Die();
+                    if(CanDie) Die();
                 }
                 _health = value;
             }
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             if(CanDie)
                 Health = _health;
@@ -35,7 +35,7 @@ using UnityEngine;
                 _health = -1;
         }
 
-        public void ApplyDamage(float damage)
+        public virtual void ApplyDamage(float damage)
         {
             Health -= damage;
         }

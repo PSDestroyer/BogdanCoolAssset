@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -22,6 +23,13 @@ namespace PlatformCharacterController
             {
                 PlatformAnimator.SetTrigger("In");
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            
+            Gizmos.DrawSphere(transform.position + Vector3.up * JumpForze, 2f);
         }
     }
 }

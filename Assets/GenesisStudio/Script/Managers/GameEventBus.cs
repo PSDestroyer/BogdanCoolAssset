@@ -18,6 +18,7 @@ namespace GenesisStudio
         public Action<int> OnItemCollected;
         public Action<float> OnHealthChanged;
         public Action<float> OnGasChanged;
-        
+
+        public Action<Enemy> OnEnemyDie;
     }
 }
