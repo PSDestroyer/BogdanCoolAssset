@@ -80,6 +80,12 @@ namespace GenesisStudio
             return dis <= check_distance;
         }
         
+        public static bool IsNearThePoint(this Transform t, Vector3 point, float check_distance = 3.6f)
+        {
+            float dis = Vector3.Distance(t.position, point);
+            return dis <= check_distance;
+        }
+        
         public static bool GetChance(float chance)
         {
             if (chance >= 100) chance = 100;
