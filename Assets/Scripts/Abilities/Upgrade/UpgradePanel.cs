@@ -32,11 +32,12 @@ public class UpgradePanel : UIScreen
 
     protected override IEnumerator OnShow()
     {
-        player.enabled = false;
+        player.Controls(false);
         foreach (var uo in upgrades)
         {
             uo.interactable = uo.IsActive;
             if(uo.IsActive) uo.DrawUI();
+            uo.gameObject.SetActive(uo.IsActive);
         }
         upgrades[0].upgradeButton.Select();
         yield return _canvasGroup.Fade(0, 1, .5f);
@@ -52,7 +53,7 @@ public class UpgradePanel : UIScreen
         while(player.IsBlending)
             yield return null;
         
-        player.enabled = true;
+        player.Controls(true);
     }
 
     public override void Initialize()

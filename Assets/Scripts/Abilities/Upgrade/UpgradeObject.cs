@@ -8,7 +8,7 @@ public class UpgradeObject : Selectable
     [HideInInspector] public Ability ability;
     UpgradePanel _upgradePanel;
     private bool isActive;
-
+    
     
     public Slider damage, gasUse;
     public TMP_Text cooldownValue, levelValue;
@@ -40,6 +40,7 @@ public class UpgradeObject : Selectable
     
     public void Initialize(UpgradePanel upgradePanel)
     {
+        
         _upgradePanel = upgradePanel;
 
         damage.maxValue = 100f;
