@@ -50,9 +50,6 @@ public class UpgradePanel : UIScreen
         foreach (var uo in upgrades) 
             uo.interactable = false;
         
-        while(player.IsBlending)
-            yield return null;
-        
         player.Controls(true);
     }
 

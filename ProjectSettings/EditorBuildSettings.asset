@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MainMenu.unity
+    guid: fd35486c39c564348b1a76022e7329de
+  - enabled: 1
     path: Assets/GenesisStudio/Scenes/Show Case.unity
     guid: f08d90d90eb0ea74188bc7c06abe37c3
   - enabled: 1

@@ -20,7 +20,7 @@ public class BombAbility : Ability
         _shooter.force = force;
         _shooter.height = height;
         
-        InputManager.Instance.Subscribe(Needs.Fire, Use);
+        // InputManager.Instance.Subscribe(Needs.Fire, Use);
     }
 
     public override void Use(InputAction.CallbackContext context)

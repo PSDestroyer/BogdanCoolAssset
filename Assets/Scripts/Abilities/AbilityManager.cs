@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using PlatformCharacterController;
@@ -17,11 +18,18 @@ public class AbilityManager : MonoBehaviour
     {
         _character = GetComponent<MovementCharacterController>();
         _activeAbilities = new List<Ability>();
+        
     }
     
-    private void Start()
+    private IEnumerator Start()
     {
         _abilityUpgrade.Initialize(_abilityDatabase);
+        yield return null;
+        LoadAbilities();
+    }
+
+    public void LoadAbilities()
+    {
         var abilities = _abilityDatabase.LoadAbilities();
         if(abilities == null) return;
         foreach (var a in abilities)
@@ -30,7 +38,7 @@ public class AbilityManager : MonoBehaviour
             AddAbility(a.RuntimePrefab, true);
         }
     }
-    
+
     public void AddAbility(Ability ability, bool fromSave = false)
     {
         var instance = Instantiate(ability, _abilityRoot);

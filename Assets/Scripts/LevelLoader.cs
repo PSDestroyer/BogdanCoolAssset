@@ -4,7 +4,7 @@ using UnityEngine;
 public class LevelLoader : MonoBehaviour
 {
     public LevelData nextLevel;
-    private void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {

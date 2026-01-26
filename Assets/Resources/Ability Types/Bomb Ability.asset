@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bomb Ability
   m_EditorClassIdentifier: 
   name: A_Bomb
+  actionName: Interact
   level: 1
   maxLevel: 5
   upgradePrice: 0

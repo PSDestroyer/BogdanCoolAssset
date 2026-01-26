@@ -13,6 +13,7 @@ namespace HalvaStudio.Save
     {
         public SaveData saveData;
         [SerializeField] private SaveData defaultSaveData;
+       
 
         protected override void AwakeInit()
         {

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using GenesisStudio;
 using PlatformCharacterController;
@@ -5,12 +6,14 @@ using UnityEngine;
 
 public class SlapAbility : Ability
 {
-    public HitBox hitBox;
+    private HitBox hitBox;
     
     
     protected override void Initialize()
     {
-        InputManager.Instance.Subscribe(Needs.Fire, Use);
+        Debug.Break();
+        hitBox = _controller.hitBox;
+        // InputManager.Instance.Subscribe(Needs.Fire, Use);Use
         hitBox.damage = Damage;
     }
 

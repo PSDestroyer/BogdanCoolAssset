@@ -10,6 +10,7 @@ public abstract class Ability : MonoBehaviour
 {
     [field: SerializeField] public AbilityData Data { get; private set; }
     
+    
     //player stats
     protected MovementCharacterController _controller;
     protected Animator _animator;
@@ -64,6 +65,8 @@ public abstract class Ability : MonoBehaviour
         _level = Data.Level;
         _cooldown = Cooldown;
         
+        InputManager.Instance.Subscribe(Data.ActionName, Use);
+        
         Initialize();
     }
     protected abstract IEnumerator C_Use();
@@ -97,5 +100,20 @@ public abstract class Ability : MonoBehaviour
         _level++;
     }
 
-   
+    private void OnTriggerEnter(Collider other)
+    {
+        var Player = GameManager.Instance.Player as MovementCharacterController;
+        Player.AbilityManager.AddAbility(this);
+        gameObject.SetActive(false);
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.Unsubscribe(Data.ActionName);
+    }
+
+    private void OnDestroy()
+    {
+        InputManager.Instance.Unsubscribe(Data.ActionName);
+    }
 }

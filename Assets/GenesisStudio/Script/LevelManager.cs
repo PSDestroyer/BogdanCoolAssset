@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class LevelManager : Singleton<LevelManager>
 {
-    private LoadingScene LoadingScreenPrefab
-    {
-        get
-        {
-            return Resources.Load<LoadingScene>("Loading/Canvas");
-        }
-    }
+    private LoadingScene LoadingScreenPrefab => Resources.Load<LoadingScene>("Loading/Canvas");
 
     private LevelData GetData(string id)
     {
@@ -24,6 +18,12 @@ public class LevelManager : Singleton<LevelManager>
     public void LoadScene(string sceneName)
     {
         LoadScene(GetData(sceneName));
+    }
+
+    public void Menu()
+    {
+        var instance = Instantiate(LoadingScreenPrefab);
+        instance.LoadScene("MainMenu");
     }
 
     public void LoadScene(LevelData level)

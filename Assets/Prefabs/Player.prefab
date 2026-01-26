@@ -22338,6 +22338,7 @@ MonoBehaviour:
   CurrentActivePlatform: {fileID: 0}
   default_items: []
   rHand: {fileID: 441821476011663085}
+  hitBox: {fileID: 8470707193065984064}
   shootController: {fileID: 3755541839444275932}
   rayOrigin: 0
   _cameraTransform: {fileID: 3803226695068804263}

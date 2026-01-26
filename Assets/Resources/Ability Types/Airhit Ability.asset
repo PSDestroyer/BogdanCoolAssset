@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Airhit Ability
   m_EditorClassIdentifier: 
   name: A_Airhit
+  actionName: UseItem
   level: 1
   maxLevel: 5
   upgradePrice: 0

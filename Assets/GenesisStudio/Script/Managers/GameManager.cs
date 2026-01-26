@@ -12,15 +12,18 @@ public class GameManager : Singleton<GameManager>
     public MoneyManager money;
     [SerializeField] private GameObject player;
     public Portal portal;
+    public LevelData nextLevel;
+    public Boss boss;
+    public List<Enemy> enemies;
     public ICharacter Player => player.GetComponent<ICharacter>();
     public GameObject PlayerObject => player;
-
-
+    
+    
     public float indicator_height = 2f;
     public float indicator_arriveRange = 2f;
     public Color indicator_color = Color.yellowNice;
-    public List<Enemy> enemies;
-
+    
+    
 
     private List<Collectable> _collectables;
     public int collected;
@@ -45,7 +48,12 @@ public class GameManager : Singleton<GameManager>
         GameEventBus.Instance.OnEnemyDie += OnEnemyDie;
     }
 
-
+    public void Complete()
+    {
+        UIManager.Instance.Show<EndOfLevelScreen>(out _);
+        
+    }
+    
     public void PlayerEnable(bool value)
     {
        Player.Controls(value);  
@@ -53,7 +61,7 @@ public class GameManager : Singleton<GameManager>
 
     public void Collect()
     {
-        collected++;
+        SaveManager.Instance.saveData.collected++;
         GameEventBus.Instance.OnItemCollected?.Invoke(collected);
     }
 
@@ -78,10 +86,15 @@ public class GameManager : Singleton<GameManager>
         if(enemies.Count == 0)
             OpenPortal();
     }
+
     
     public Coroutine InvokeCoroutineHelper(IEnumerator coroutine)
     {
         return StartCoroutine(coroutine);
     }
 
+    public void Restart()
+    {
+        //get checkpoint, load data from checkpoint
+    }
 }

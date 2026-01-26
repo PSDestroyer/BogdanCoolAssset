@@ -41,7 +41,7 @@ namespace GenesisStudio
         };
         
         
-        public static IEnumerator Fade(this CanvasGroup cg, float from, float to, float duration)
+        public static IEnumerator Fade(this CanvasGroup cg, float from, float to, float duration = 2f)
         {
             float t = 0f;
             cg.alpha = from;

@@ -8,10 +8,12 @@ public class LevelData : ScriptableObject
 {
     [SerializeField] private string LevelName;
     [SerializeField] SceneAsset nextLevel;
-    
+    [SerializeField] private bool isFinal;
     public string Scene => nextLevel.name;
-    
-    
+
+    public bool IsFinal => isFinal;
+
+
     public string ID()
     {
         return LevelName;

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using HalvaStudio.Save;
@@ -133,7 +134,5 @@ namespace GenesisStudio
                 yield return null;
             }
         }
-    
-        
     }
 }

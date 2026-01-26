@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using GenesisStudio;
 using PlatformCharacterController;
 using UnityEngine;
@@ -44,6 +43,8 @@ public class AbilityUpgrade : MonoBehaviour , IInteractable
 
     public void EnableAbility(Ability ability)
     {
+        print(ability);
+        print(_abilityDatabase);
         if (_abilityDatabase.Contains(ability.Data.ID()))
         {
             _upgradePanel.Activate(ability);

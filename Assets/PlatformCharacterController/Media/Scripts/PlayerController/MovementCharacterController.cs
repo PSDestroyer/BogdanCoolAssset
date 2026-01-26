@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using GenesisStudio;
+using HalvaStudio.Save;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -106,7 +107,8 @@ namespace PlatformCharacterController
 
         [Space(5f)] 
         public Transform rHand;
-
+        public HitBox hitBox;
+        
         public ShootController shootController;
         [SerializeField] private float rayOrigin;
         [Space(5f)]
@@ -187,13 +189,13 @@ namespace PlatformCharacterController
 
         public int Collectables
         {
-            get { return GameManager.Instance.collected; }
+            get { return SaveManager.Instance.saveData.collected; }
             set
             {
-                GameManager.Instance.collected = value;
+                SaveManager.Instance.saveData.collected = value;
                 
-                if (GameManager.Instance.collected <= 0)
-                    GameManager.Instance.collected = 0;
+                if (SaveManager.Instance.saveData.collected <= 0)
+                    SaveManager.Instance.saveData.collected = 0;
             }
         }
 
@@ -635,7 +637,6 @@ namespace PlatformCharacterController
 
         #endregion
 
-        public Vector3 direction;
         
         private void OnDrawGizmos()
         {
@@ -680,7 +681,7 @@ namespace PlatformCharacterController
             shootController?.Initialize(this);
             
             _playerInputs.Subscribe(Needs.Interact, Interact);
-                        
+            // _abilityManager.LoadAbilities();
         }
 
 
@@ -801,18 +802,18 @@ namespace PlatformCharacterController
         //Use this to deactivate te player control for a period of time.
         public IEnumerator DeactivatePlayerControlByTime(float time)
         {
-            _controller.enabled = false;
-            CanControl = false;
+            // _controller.enabled = false;
+            // CanControl = false;
             yield return new WaitForSeconds(time);
-            CanControl = true;
-            _controller.enabled = true;
+            // CanControl = true;
+            // _controller.enabled = true;
         }
 
         //dash coroutine.
         private IEnumerator Dashing(float time)
         {
             _dash = false;
-            CanControl = false;
+            // CanControl = false;
             if (!_isGrounded)
             {
                 Gravity = 0;
@@ -821,7 +822,7 @@ namespace PlatformCharacterController
 
             //animate hear to true
             yield return new WaitForSeconds(time);
-            CanControl = true;
+            // CanControl = true;
             //animate hear to false
             Gravity = _gravity;
             

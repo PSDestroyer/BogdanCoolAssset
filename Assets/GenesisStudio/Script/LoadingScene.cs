@@ -10,7 +10,7 @@ public class LoadingScene : MonoBehaviour
     public Slider slider;
     public TMP_Text ProgressText, LevelName;
 
-    public void LoadScene(string name, string levelName)
+    public void LoadScene(string name, string levelName = null)
     {
         LevelName.text = levelName;
         StartCoroutine(AsyncSceneLoad(name));

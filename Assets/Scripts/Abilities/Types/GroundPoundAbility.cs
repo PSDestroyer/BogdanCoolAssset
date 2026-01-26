@@ -15,7 +15,7 @@ namespace Abilities
         
         protected override void Initialize()
         {
-            InputManager.Instance.Subscribe(Needs.Interact, Use);    
+            // InputManager.Instance.Subscribe(Needs.Interact, Use);    
         }
     
         

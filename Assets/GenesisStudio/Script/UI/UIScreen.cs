@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class UIScreen : MonoBehaviour
 {
+    protected CanvasGroup _canvasGroup => GetComponent<CanvasGroup>();
+    
     protected abstract IEnumerator OnShow();
     protected abstract IEnumerator OnHide();
     public abstract void Initialize();

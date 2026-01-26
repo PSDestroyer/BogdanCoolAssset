@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using GenesisStudio;
 using PlatformCharacterController;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 
@@ -22,9 +22,11 @@ public abstract class Boss : MonoBehaviour, IDamageable
     [field: SerializeField] HitBox[] hitBoxes;
     [SerializeField] private int phases;
 
+    
     [Space(5f)] public Path patrolPath;
     public MovementCharacterController player;
-
+    
+    
     private BossState _state;
 
     private delegate IEnumerator BossAction();
@@ -36,7 +38,10 @@ public abstract class Boss : MonoBehaviour, IDamageable
     private List<Transform> _points => patrolPath.points;
     private float _maxHealth;
     private int _currentPhase;
-
+    private Animator _animator;
+    
+    
+    
     public enum BossState
     {
         Idle,
@@ -104,6 +109,8 @@ public abstract class Boss : MonoBehaviour, IDamageable
         
         _agent = GetComponent<NavMeshAgent>();
         _rigidbody = GetComponent<Rigidbody>();
+        gameObject.TryGetComponent(out _animator);
+        
         
         foreach (var hitBox in hitBoxes)
         {
@@ -114,10 +121,17 @@ public abstract class Boss : MonoBehaviour, IDamageable
         _currentPhase = phases;
     }
 
-    public void ChangeState(BossState newState)
+    #region Animation
+    
+    //triggers
+    protected void A_SetTrigger(int t)
     {
-        State = newState;
+        _animator?.SetTrigger(t);
     }
+
+    #endregion
+
+    #region Helpers
 
     private void HitBoxes(bool value)
     {
@@ -126,17 +140,6 @@ public abstract class Boss : MonoBehaviour, IDamageable
             hitBox.active = value;
         }
     }
-
-    private IEnumerator Patrol()
-    {
-        while (true)
-        {
-            var randomPoint = _points.GetRandomItemFromList();
-            _agent.SetDestination(randomPoint.position);
-            yield return new WaitUntil(() => ReachedDestination() || SeePlayer());
-        }
-    }
-
     private bool ReachedDestination(Transform target = null)
     {
         return transform.IsNearThePoint(target == null ? _agent.destination : target.position);
@@ -151,8 +154,21 @@ public abstract class Boss : MonoBehaviour, IDamageable
 
         return result;
     }
+    
+    private float RandomTime()
+    {
+        return Random.Range(0.8f, 1.2f);
+    }
+    #endregion
 
-    private IEnumerator Chase()
+    #region Behaviour
+
+    public void ChangeState(BossState newState)
+    {
+        State = newState;
+    }
+
+    protected virtual IEnumerator Chase()
     {
         _agent.isStopped = false;
         while (Vector3.Distance(transform.position, player.transform.position) > 1f)
@@ -166,8 +182,18 @@ public abstract class Boss : MonoBehaviour, IDamageable
             }
         }
     }
-
-    private IEnumerator Attack()
+    
+    protected virtual IEnumerator Patrol()
+    {
+        while (true)
+        {
+            var randomPoint = _points.GetRandomItemFromList();
+            _agent.SetDestination(randomPoint.position);
+            yield return new WaitUntil(() => ReachedDestination() || SeePlayer());
+        }
+    }
+    
+    protected virtual IEnumerator Attack()
     {   
         _agent.isStopped = true;
         var attackCombat = new Queue<Func<IEnumerator>>(Combo());
@@ -186,11 +212,6 @@ public abstract class Boss : MonoBehaviour, IDamageable
         
     }
 
-    private float RandomTime()
-    {
-        return Random.Range(0.8f, 1.2f);
-    }
-
     protected virtual IEnumerator NewPhase()
     {
         _currentPhase--;
@@ -203,6 +224,7 @@ public abstract class Boss : MonoBehaviour, IDamageable
         yield return null;
     }
 
+    #endregion
     
     public void ApplyDamage(float damage)
     {
@@ -217,7 +239,6 @@ public abstract class Boss : MonoBehaviour, IDamageable
         if (Health <= 0)
             Die();
     }
-
     public void Die()
     {
         Destroy(gameObject);
