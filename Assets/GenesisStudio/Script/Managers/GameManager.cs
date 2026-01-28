@@ -2,7 +2,9 @@
 using GenesisStudio;
 using System.Collections;
 using System.Collections.Generic;
+using PlatformCharacterController;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using SaveManager = HalvaStudio.Save.SaveManager;
 
 
@@ -14,6 +16,7 @@ public class GameManager : Singleton<GameManager>
     public Portal portal;
     public LevelData nextLevel;
     public Boss boss;
+    public CheckPointManager checkPointManager;
     public List<Enemy> enemies;
     public ICharacter Player => player.GetComponent<ICharacter>();
     public GameObject PlayerObject => player;
@@ -28,7 +31,6 @@ public class GameManager : Singleton<GameManager>
     private List<Collectable> _collectables;
     public int collected;
 
-
     public Mission mission_currentMission { get; set; }
 
 
@@ -39,15 +41,21 @@ public class GameManager : Singleton<GameManager>
 
         _collectables = new List<Collectable>();
         collected = 0;
-
+        
+        
+        
     }
 
     private void Start()
     {
+        checkPointManager.Initialize(Player as MovementCharacterController);
         portal.Deactivate();
         GameEventBus.Instance.OnEnemyDie += OnEnemyDie;
+        checkPointManager.Load();
     }
 
+    
+    
     public void Complete()
     {
         UIManager.Instance.Show<EndOfLevelScreen>(out _);
@@ -68,7 +76,7 @@ public class GameManager : Singleton<GameManager>
     [ContextMenu(nameof(Save))]
     public void Save()
     {
-        SaveManager.Instance.Save();
+        SaveManager.Instance.Save(true);
     }
 
     private void OpenPortal()

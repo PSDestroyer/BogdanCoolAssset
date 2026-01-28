@@ -11,13 +11,12 @@ public class SlapAbility : Ability
     
     protected override void Initialize()
     {
-        Debug.Break();
         hitBox = _controller.hitBox;
         // InputManager.Instance.Subscribe(Needs.Fire, Use);Use
         hitBox.damage = Damage;
     }
 
-    protected override IEnumerator C_Use()
+    protected override IEnumerator Action()
     {
         _animator.SetTrigger("Slap");
         yield return null;

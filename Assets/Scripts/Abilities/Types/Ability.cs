@@ -69,7 +69,7 @@ public abstract class Ability : MonoBehaviour
         
         Initialize();
     }
-    protected abstract IEnumerator C_Use();
+    protected abstract IEnumerator Action();
 
     public virtual void Use(InputAction.CallbackContext context)
     {
@@ -85,14 +85,14 @@ public abstract class Ability : MonoBehaviour
     {
         _gasContainer.Gas -= _gasUse;
         _controller.GasUpdate();
-        yield return C_Use();
+        yield return Action();
         yield return new WaitForSeconds(_cooldown);
         C_active = null;
     }
 
     public void Upgrade()
     {
-        _controller.Collectables -= Price;
+        _controller.Collected -= Price;
         
         if(_level >= Data.MaxLevel)
             return;
@@ -106,14 +106,5 @@ public abstract class Ability : MonoBehaviour
         Player.AbilityManager.AddAbility(this);
         gameObject.SetActive(false);
     }
-
-    private void OnDisable()
-    {
-        InputManager.Instance.Unsubscribe(Data.ActionName);
-    }
-
-    private void OnDestroy()
-    {
-        InputManager.Instance.Unsubscribe(Data.ActionName);
-    }
+    
 }

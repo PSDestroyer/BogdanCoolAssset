@@ -145,7 +145,7 @@ namespace HalvaStudio.Save
         {
             public float sensivity;
             [NonSerialized] public int money;
-            public CheckPointData lastCheckPoint;
+            public CheckPointData? lastCheckPoint;
 
             #region Stats
 

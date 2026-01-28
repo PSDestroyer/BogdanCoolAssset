@@ -25,6 +25,7 @@ public class HUDScreen : UIScreen
         
         GameEventBus.Instance.OnGasChanged += OnGasChanged;
         GameEventBus.Instance.OnItemCollected += OnItemCollected;
+        GameEventBus.Instance.OnHealthChanged += OnHealthChanged;
         
     }
     

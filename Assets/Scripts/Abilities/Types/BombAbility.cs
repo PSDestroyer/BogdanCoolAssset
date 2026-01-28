@@ -31,7 +31,7 @@ public class BombAbility : Ability
             base.Use(context);
     }
 
-    protected override IEnumerator C_Use()
+    protected override IEnumerator Action()
     {
         _animator.SetTrigger("Throw");
         yield return null;

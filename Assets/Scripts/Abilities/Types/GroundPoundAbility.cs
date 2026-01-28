@@ -19,7 +19,7 @@ namespace Abilities
         }
     
         
-        protected override IEnumerator C_Use()
+        protected override IEnumerator Action()
         {
             if(_controller.IsGrounded) yield break;
             _controller.CanControl = false;

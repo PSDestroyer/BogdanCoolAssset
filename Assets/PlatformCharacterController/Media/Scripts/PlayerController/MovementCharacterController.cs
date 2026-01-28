@@ -187,7 +187,7 @@ namespace PlatformCharacterController
             get { return _cameraTransform; }
         }
 
-        public int Collectables
+        public int Collected
         {
             get { return SaveManager.Instance.saveData.collected; }
             set
@@ -854,6 +854,12 @@ namespace PlatformCharacterController
 
         #endregion
 
-        
+
+        public void Wrap(Vector3 spawnPointPosition)
+        {
+            _controller.enabled = false;
+            transform.position = spawnPointPosition;
+            _controller.enabled = true;
+        }
     }
 }

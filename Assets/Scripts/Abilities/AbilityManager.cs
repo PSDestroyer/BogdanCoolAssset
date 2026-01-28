@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using GenesisStudio;
 using PlatformCharacterController;
 using UnityEngine;
 
@@ -85,5 +86,9 @@ public class AbilityManager : MonoBehaviour
         }
         target.Use();
     }
-        
+
+    public void Clear()
+    {
+        StartCoroutine(_activeAbilities.DestroyItemsAndClearTheListCoroutine());
+    }
 }

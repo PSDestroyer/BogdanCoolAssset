@@ -1,18 +1,25 @@
 using System.Collections.Generic;
+using PlatformCharacterController;
 using UnityEngine;
 
 public struct CheckPointData
 {
-    public float health;
-    public float bananas;
-    public List<Ability> abilities;
-    public Transform spawnPoint;
+    public float Health;
+    public int Collected;
+    public List<Ability> Abilities;
+    public float x,y,z;
 
-    public CheckPointData(float health, float bananas, List<Ability> abilities, Transform spawnPoint)
+    private Vector3 GetPosition() => new Vector3(x, y, z);
+    
+    public void Load(MovementCharacterController player)
     {
-        this.health = health;
-        this.bananas = bananas;
-        this.abilities = abilities;
-        this.spawnPoint = spawnPoint;
+        player.Wrap(GetPosition());
+        player.Health = Health;
+        player.Collected = Collected;
+        player.AbilityManager.Clear();
+        foreach (Ability ability in Abilities)
+        {
+            player.AbilityManager.AddAbility(ability);
+        }
     }
 }

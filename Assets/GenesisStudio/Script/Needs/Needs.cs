@@ -109,7 +109,7 @@ namespace GenesisStudio
             return list[Random.Range(0, list.Count)];
         }
         
-        public static IEnumerator DestroyItemsAndClearTheList<T>(this List<T> list) where T : Component
+        public static IEnumerator DestroyItemsAndClearTheListCoroutine<T>(this List<T> list) where T : Component
         {
             var copy = list;
             if (copy.Count == 0) yield break;

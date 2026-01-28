@@ -1,24 +1,33 @@
 using System;
+using System.Collections.Generic;
 using HalvaStudio.Save;
 using PlatformCharacterController;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class CheckPointManager : MonoBehaviour
+[Serializable]
+public class CheckPointManager
 {
-    [SerializeField] CheckPoint[] checkPoints;
     
+    [SerializeField] List<CheckPoint> _checkPoints;
     SaveManager _save;
-    CheckPointData _currentCheckPoint;
-    
-    
-    private void Start()
+    CheckPointData? _currentCheckPoint;
+    MovementCharacterController _controller;
+
+    public void Initialize(MovementCharacterController controller)
     {
+        _controller = controller;
         _save = SaveManager.Instance;
         _currentCheckPoint = _save.saveData.lastCheckPoint;
-        foreach (var checkPoint in checkPoints)
+        foreach (var checkPoint in _checkPoints)
         {
-            checkPoint.Initialize(this, (MovementCharacterController)GameManager.Instance.Player);
+            checkPoint.Initialize(this, controller);
         }
+    }
+    
+    public string GetCurrentScene()
+    {
+        return SceneManager.GetActiveScene().name;
     }
 
     public void SaveData(CheckPointData data)
@@ -29,6 +38,13 @@ public class CheckPointManager : MonoBehaviour
 
     public void Load()
     {
-        
+        if (_save.saveData.lastCheckPoint == null) return;
+        _currentCheckPoint = _save.saveData.lastCheckPoint;
+        _currentCheckPoint.Value.Load(_controller);
+    }
+
+    public void Add(CheckPoint checkPoint)
+    {
+        _checkPoints.Add(checkPoint);
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using HalvaStudio.Save;
 using PlatformCharacterController;
 using UnityEngine;
@@ -9,15 +10,18 @@ public class CheckPoint : MonoBehaviour
     
     private CheckPointManager _manager;
     private MovementCharacterController _player;
-
+    
     private CheckPointData CheckPointData =>
         new()
         {
-            health = _player.Health,
-            bananas = GameManager.Instance.collected,
-            spawnPoint = spawnPoint,
-            abilities = _player.AbilityManager.GetActiveAbilities()
+            Health = _player.Health,
+            Collected = GameManager.Instance.collected,
+            x = spawnPoint.position.x,
+            y = spawnPoint.position.y,
+            z = spawnPoint.position.z,
+            Abilities = _player.AbilityManager.GetActiveAbilities()
         };
+
 
     public void Initialize(CheckPointManager manager, MovementCharacterController player)
     {
