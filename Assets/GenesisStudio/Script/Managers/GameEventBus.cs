@@ -20,5 +20,8 @@ namespace GenesisStudio
         public Action<float> OnGasChanged;
 
         public Action<Enemy> OnEnemyDie;
+        
+        public Action<AbilityData> OnUseAbility;
+        public Action<AbilityData> OnAddAbility;
     }
 }

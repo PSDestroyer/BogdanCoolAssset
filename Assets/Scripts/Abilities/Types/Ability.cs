@@ -83,9 +83,13 @@ public abstract class Ability : MonoBehaviour
     
     private IEnumerator UseWrapper()
     {
+        if(_gasContainer.Gas < _gasUse)
+            yield break;
+        
         _gasContainer.Gas -= _gasUse;
         _controller.GasUpdate();
         yield return Action();
+        GameEventBus.Instance.OnUseAbility?.Invoke(Data);
         yield return new WaitForSeconds(_cooldown);
         C_active = null;
     }

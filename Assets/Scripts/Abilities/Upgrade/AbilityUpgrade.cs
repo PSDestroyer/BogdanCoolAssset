@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AbilityUpgrade : MonoBehaviour , IInteractable
 {
-    public GameObject upgradeCamera;
+
 
     public bool Hold { get; set; } = false;
     public float HoldTime { get; set; }
@@ -22,21 +22,16 @@ public class AbilityUpgrade : MonoBehaviour , IInteractable
     
     public void Interact(object sender)
     {
-        if (sender is MovementCharacterController player)
+        if (sender is MovementCharacterController)
         {
             _isActive = !_isActive;
             if (_isActive)
             {
                 UIManager.Instance.Show(out _upgradePanel);
-                _upgradePanel.player = player;
-                upgradeCamera.SetActive(true);
             }
             else
             {
-                UIManager.Instance.HideCurrentScreen();
-                player.PlayerAnimator.gameObject.SetActive(true); 
-                upgradeCamera.SetActive(false);
-                player.Controls(true);
+                UIManager.Instance.Hide<UpgradePanel>();
             }
         }       
     }
@@ -48,6 +43,7 @@ public class AbilityUpgrade : MonoBehaviour , IInteractable
         if (_abilityDatabase.Contains(ability.Data.ID()))
         {
             _upgradePanel.Activate(ability);
-        }
+        } 
+        else Debug.Log($"<color=yellow>Can't find the {ability.Data} in database </color>");
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UpgradeObject : Selectable
 {
-    [HideInInspector] public Ability ability;
+    public Ability ability;
     UpgradePanel _upgradePanel;
     private bool isActive;
     
@@ -59,7 +59,6 @@ public class UpgradeObject : Selectable
 
     public override void OnSelect(BaseEventData eventData)
     {
-        base.OnSelect(eventData);
         upgradeButton.Select();
     }
     

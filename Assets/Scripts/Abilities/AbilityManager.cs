@@ -53,6 +53,8 @@ public class AbilityManager : MonoBehaviour
 
         _abilityUpgrade.EnableAbility(instance);
         
+        GameEventBus.Instance.OnAddAbility?.Invoke(instance.Data);
+        
         if (fromSave) return;
         _abilityDatabase.SaveAbility(ability);
         ability.CheckForDestroy();
@@ -72,6 +74,8 @@ public class AbilityManager : MonoBehaviour
         
         _abilityDatabase.SaveAbility(ability);
         _abilityUpgrade.EnableAbility(instance);
+        
+        GameEventBus.Instance.OnAddAbility?.Invoke(instance.Data);
     }
 
     public List<Ability> GetActiveAbilities() => _activeAbilities;

@@ -154,9 +154,9 @@ MonoBehaviour:
   rb: {fileID: 4611110600446196615}
   explosionEffect: {fileID: 1451354923681886, guid: d2c6feae2c3c4d74c8e1e3553d99644e, type: 3}
   range: 6
-  enemyLayer:
+  damageableLayer:
     serializedVersion: 2
-    m_Bits: 256
+    m_Bits: 0
   damagePerEnemy: 6
 --- !u!114 &4672166585542552415
 MonoBehaviour:
@@ -217,7 +217,7 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Time: 0.07
-  m_PreviewTimeScale: 0.13
+  m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1

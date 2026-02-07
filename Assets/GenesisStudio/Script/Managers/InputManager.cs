@@ -8,6 +8,53 @@ namespace GenesisStudio
     [RequireComponent(typeof(PlayerInput))]
     public class InputManager : Singleton<InputManager>
     {
+        public class GlobalActions
+        {
+            InputActionMap _actionMap;
+            private readonly Dictionary<string, Action<InputAction.CallbackContext>> _subscriptions
+                = new Dictionary<string, Action<InputAction.CallbackContext>>();
+
+            public GlobalActions(InputActionMap actionMap)
+            {
+                _actionMap = actionMap;
+                
+                actionMap.Enable();
+            }
+
+            public void Subscribe(string actionName, Action<InputAction.CallbackContext> callback)
+            {
+                InputAction action = _actionMap.FindAction(actionName);
+                string key = Key(action);
+                
+                if (_subscriptions.ContainsKey(actionName))
+                    Unsubscribe(actionName);
+                
+                _subscriptions[key] = callback;
+                
+                action.performed += callback;
+                action.canceled += callback;
+            }
+            
+            public void Unsubscribe(string actionName)
+            {
+                if (!_subscriptions.TryGetValue(actionName, out var callback))
+                    return;
+                
+                InputAction action = _actionMap.FindAction(actionName);
+                string key = Key(action);
+
+                if (action != null)
+                {
+                    action.performed -= callback;
+                    action.canceled -= callback;
+                }
+
+                _subscriptions.Remove(key);
+            }
+        
+            string Key(InputAction action) => action.id.ToString();
+        }
+        
         #region Inspector
 
         [field: SerializeField] public InputActionAsset DefaultInputActionAsset { get; private set; }
@@ -17,6 +64,8 @@ namespace GenesisStudio
 
         #region Properties
 
+        public GlobalActions Global { get; private set; }
+        
         public Vector2 MoveInput { get; private set; }
         public Vector2 LookInput { get; private set; }
 
@@ -43,6 +92,8 @@ namespace GenesisStudio
             Subscribe(Needs.Move, Move);
             Subscribe(Needs.Look, Look);
             Subscribe("Jump", Jump);
+            
+            Global = new GlobalActions(playerInput.actions.FindActionMap("Global"));
             // Subscribe(Needs.Player_Sprint, Sprint);
         }
 
@@ -70,16 +121,23 @@ namespace GenesisStudio
             isSprinting = ctx.performed;
         }
 
-       
-
         #endregion
 
         #region Public Methods
 
         public void ChangeMap(string map)
         {
-            playerInput.SwitchCurrentActionMap(map);
-            Cursor.lockState = map == Needs.UIMap ? CursorLockMode.Confined : CursorLockMode.Locked;
+            foreach (var actionMap in playerInput.actions.actionMaps)
+            {
+                if (actionMap.name == "Global") continue;
+                actionMap.Disable();
+            }
+            
+            playerInput.actions.FindActionMap(map)?.Enable();
+            
+            Cursor.lockState = map == Needs.UIMap 
+                ? CursorLockMode.Confined 
+                : CursorLockMode.Locked;
         }
 
         public void Subscribe(string actionName, Action<InputAction.CallbackContext> callback)
@@ -118,22 +176,43 @@ namespace GenesisStudio
         }
         
         string Key(InputAction action) => action.id.ToString();
-        
 
-        public void EnableAll()
+        private void OnDisable()
         {
-            foreach (var map in playerInput.actions.actionMaps)
-                map.Enable();
-        }
-
-        public void DisableAll()
-        {
-            foreach (var map in playerInput.actions.actionMaps)
-                map.Disable();
+            UnsubscribeAll();
         }
         
+        private void UnsubscribeAll()
+        {
+            foreach (var pair in _subscriptions)
+            {
+                string actionId = pair.Key;
+                var callback = pair.Value;
+
+                InputAction action = FindActionById(actionId);
+                if (action == null)
+                    continue;
+
+                action.performed -= callback;
+                action.canceled  -= callback;
+            }
+
+            _subscriptions.Clear();
+        }
         
+        private InputAction FindActionById(string id)
+        {
+            foreach (var map in playerInput.actions.actionMaps)
+            {
+                var action = map.FindAction(new Guid(id));
+                if (action != null)
+                    return action;
+            }
+            return null;
+        }
 
         #endregion
+        
+        
     }
 }

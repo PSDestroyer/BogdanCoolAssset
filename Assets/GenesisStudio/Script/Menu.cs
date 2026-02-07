@@ -1,45 +1,37 @@
 ﻿using System.Collections;
+using PlatformCharacterController;
 using UnityEngine.UI;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace GenesisStudio
 {
     public class Menu : UIScreen
     {
-        public Selectable firstSelect;
-        private bool isOpen = false;
-
-        public void Toggle()
-        {
-            isOpen = !isOpen;
-            
-        }
-
+        private MovementCharacterController _player;
+        
         protected override IEnumerator OnShow()
         {
-            // InputManager.Instance.playerInput.actions[Needs.Cancel].performed -= GameManager.Instance.ToggleMenu;
             InputManager.Instance.ChangeMap(Needs.UIMap);
-            isOpen = true;
-            
-            firstSelect.Select();
-            
+            _player.CanControl = false;
             GameEventBus.Instance.OnMenuOpened?.Invoke();
-            yield return null;
+            yield return StartCoroutine(_canvasGroup.Fade(0,1,0.1f));
         }
 
-        protected override IEnumerator OnHide()  
+        protected override IEnumerator OnHide()
         {
             InputManager.Instance.ChangeMap(Needs.PlayerMap);
-            // InputManager.Instance.playerInput.actions[Needs.Cancel].performed += GameManager.Instance.ToggleMenu;
-            isOpen = false;
-            
+            _player.CanControl = true;
             GameEventBus.Instance.OnMenuClosed?.Invoke();
-            yield return null;
+            yield return StartCoroutine(_canvasGroup.Fade(1,0,0.1f));
         }
 
+        
+        
         public override void Initialize()
         {
-            throw new System.NotImplementedException();
+            
+            _player = GameManager.Instance.Player as MovementCharacterController;
         }
     }
     

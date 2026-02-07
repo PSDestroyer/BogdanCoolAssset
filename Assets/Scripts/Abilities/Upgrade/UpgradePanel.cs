@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class UpgradePanel : UIScreen
 {
+    public GameObject upgradeCamera;
     public List<UpgradeObject> upgrades;
     [HideInInspector] public UpgradeObject selected;
 
@@ -40,6 +41,8 @@ public class UpgradePanel : UIScreen
             uo.gameObject.SetActive(uo.IsActive);
         }
         upgrades[0].upgradeButton.Select();
+        upgradeCamera.SetActive(true);
+        // _uiManager.Hide<HUDScreen>();
         yield return _canvasGroup.Fade(0, 1, .5f);
                 
     }
@@ -49,8 +52,10 @@ public class UpgradePanel : UIScreen
         yield return _canvasGroup.Fade(1, 0, .5f);
         foreach (var uo in upgrades) 
             uo.interactable = false;
-        
+        upgradeCamera.SetActive(false);
         player.Controls(true);
+        // _uiManager.Show<HUDScreen>(out _);
+        // player.PlayerAnimator.gameObject.SetActive(true); 
     }
 
     public override void Initialize()

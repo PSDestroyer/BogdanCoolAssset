@@ -4239,8 +4239,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3845856410014759200}
-  - {fileID: 8118815465108911746}
   - {fileID: 9085961974715257106}
+  - {fileID: 8118815465108911746}
   - {fileID: 2174147740037380323}
   m_Father: {fileID: 4412730669163264847}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4311,6 +4311,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8e10edf673147fd8a8b15abe718c676, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hideOnStart: 1
+  isActive: 0
+  upgradeCamera: {fileID: 8561499587539917003}
   upgrades:
   - {fileID: 1834109252043611058}
   - {fileID: 6825469537816385204}
@@ -5676,11 +5679,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 4494074113337420089}
     m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnLeft: {fileID: 6825469537816385204}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -5703,7 +5706,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 7011593215848591435}
+  m_TargetGraphic: {fileID: 7784393373825733839}
   ability: {fileID: 0}
   damage: {fileID: 6498132741717688789}
   gasUse: {fileID: 4657352353655801532}
@@ -5775,8 +5778,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2006442754855132879}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14220957, y: 0.8517108, z: -0.29730153, w: 0.40740266}
-  m_LocalPosition: {x: -2.3621674, y: 2.49411, z: 1.9042053}
+  m_LocalRotation: {x: 0.19825706, y: 0.7231779, z: -0.23130919, w: 0.6198419}
+  m_LocalPosition: {x: -2.9983847, y: 2.24411, z: 0.4641526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -17790,12 +17793,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 1834109252043611058}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 3431092778832078708}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -17817,7 +17820,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 7736330410589957066}
+  m_TargetGraphic: {fileID: 2873175057550202480}
   ability: {fileID: 0}
   damage: {fileID: 7456580924889111468}
   gasUse: {fileID: 5160630841467738851}
@@ -18009,11 +18012,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnDown: {fileID: 3431092778832078708}
+    m_SelectOnLeft: {fileID: 1834109252043611058}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
@@ -18036,7 +18039,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 9027738644465934925}
+  m_TargetGraphic: {fileID: 8143420819200509350}
   ability: {fileID: 0}
   damage: {fileID: 5876664107734304960}
   gasUse: {fileID: 9190827410353161552}
@@ -19836,8 +19839,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6655863148392451803}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.14220957, y: 0.8517108, z: -0.29730153, w: 0.4074027}
-  m_LocalPosition: {x: -2.3621674, y: 2.49411, z: 1.9042053}
+  m_LocalRotation: {x: 0.19825703, y: 0.7231779, z: -0.23130916, w: 0.6198419}
+  m_LocalPosition: {x: -2.9983847, y: 2.24411, z: 0.4641526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -21448,12 +21451,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 6825469537816385204}
     m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
+    m_SelectOnRight: {fileID: 4494074113337420089}
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
@@ -21475,7 +21478,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 3353240458439125286}
+  m_TargetGraphic: {fileID: 6138963546379619196}
   ability: {fileID: 0}
   damage: {fileID: 8060192075914779508}
   gasUse: {fileID: 1592290463536925211}
@@ -22309,7 +22312,6 @@ MonoBehaviour:
   SlideFriction: 0.3
   Gravity: -30
   MaxDownYVelocity: 15
-  CanControl: 1
   CanJump: 1
   JumpHeight: 2
   CanDoubleJump: 1
@@ -22318,7 +22320,6 @@ MonoBehaviour:
   DashForce: 5
   Jetpack: 1
   JetPackMaxFuelCapacity: 150
-  JetPackFuel: 30
   JetPackForce: 1
   FuelConsumeSpeed: 10
   HaveSlowFall: 1
@@ -22339,10 +22340,12 @@ MonoBehaviour:
   default_items: []
   rHand: {fileID: 441821476011663085}
   hitBox: {fileID: 8470707193065984064}
+  InputAxisController: {fileID: 1524082634736574443}
   shootController: {fileID: 3755541839444275932}
   rayOrigin: 0
   _cameraTransform: {fileID: 3803226695068804263}
-  direction: {x: 0, y: 0, z: 0}
+  <GasContainer>k__BackingField:
+    _gas: 0
 --- !u!114 &4797232471482122662
 MonoBehaviour:
   m_ObjectHideFlags: 0

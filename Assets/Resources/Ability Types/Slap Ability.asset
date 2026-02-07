@@ -17,7 +17,7 @@ MonoBehaviour:
   level: 1
   maxLevel: 5
   upgradePrice: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: c6ab3e0e48cc6424c909c6c78c659d93, type: 3}
   runtimePrefab: {fileID: 3762595441214834196, guid: b47bc4d15000ba34ba27f785b0344cad, type: 3}
   cooldown: 0.4
   gasUse: 0

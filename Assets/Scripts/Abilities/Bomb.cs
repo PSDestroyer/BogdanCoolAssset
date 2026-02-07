@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bomb : MonoBehaviour
 {
-    public Rigidbody rb;
+    [HideInInspector]public Rigidbody rb;
     public GameObject explosionEffect;
     public float range = 6f;
     public LayerMask damageableLayer;

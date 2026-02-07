@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using HalvaStudio.Save;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace GenesisStudio
@@ -45,21 +46,31 @@ namespace GenesisStudio
 
 
         UIScreen _currentScreen;
-
-
+        
+        
+        
         public void Show<T>(out T screen) where T : UIScreen
         {
             screen = null;
-            if(_currentScreen != null)
-                _currentScreen.Hide();
-
+            _currentScreen?.Hide();
+            
             _currentScreen = Find<T>();
 
             if(_currentScreen == null)
-                throw new System.Exception($"<color=green>UIManager</color>: There is no type of {typeof(T)} Screen");
+                throw new Exception($"<color=green>UIManager</color>: There is no type of {typeof(T)} Screen");
 
             _currentScreen.Show();
             screen = _currentScreen as T;
+        }
+
+        public void Hide<T>() where T : UIScreen
+        {
+            _currentScreen = Find<T>();
+            if(_currentScreen == null)
+                throw new ArgumentOutOfRangeException("There is no UIScreen typeof:  " + typeof(T));
+            
+            _currentScreen.Hide();
+            _currentScreen = null;
         }
 
         public void Find<T>(out T screen) where T : UIScreen
@@ -70,13 +81,18 @@ namespace GenesisStudio
         {
             return Screens.Find(s => s.GetType() == typeof(T)) as T;
         }
-
-        public void HideCurrentScreen()
+        
+        private void Toggle<T>(InputAction.CallbackContext context) where T : UIScreen
         {
-            if(_currentScreen != null)
-                _currentScreen.Hide();
+            var target = Find<T>();
+            if(context.canceled)
+            {
+                target.isActive = !target.isActive;
+                if (target.isActive) Show<T>(out _);
+                else Hide<T>();
+            }
         }
-
+        
         private void Start()
         {
             GameEventBus.Instance.OnQuestAdded += InitializeQuest;
@@ -84,12 +100,14 @@ namespace GenesisStudio
             foreach (var s in Screens)
             {
                 s.Initialize();
-                if(s.HideOnStart) s.Hide();
+                if(s.HideOnStart) s.CanvasGroup.alpha = 0;
             }
             
             GameEventBus.Instance.OnItemCollected?.Invoke(SaveManager.Instance.saveData.collected);
             GameEventBus.Instance.OnGasChanged?.Invoke(SaveManager.Instance.saveData.gas);
             GameEventBus.Instance.OnHealthChanged?.Invoke(SaveManager.Instance.saveData.health);
+            
+            InputManager.Instance.Global.Subscribe(Needs.Cancel, Toggle<Menu>);
         }
 
         

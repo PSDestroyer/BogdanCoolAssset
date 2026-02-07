@@ -13,7 +13,7 @@ public struct CheckPointData
     
     public void Load(MovementCharacterController player)
     {
-        player.Wrap(GetPosition());
+        // player.Wrap(GetPosition());
         player.Health = Health;
         player.Collected = Collected;
         player.AbilityManager.Clear();

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Airhit Ability
   m_EditorClassIdentifier: 
   name: A_Airhit
-  actionName: UseItem
+  actionName: AirHit
   level: 1
   maxLevel: 5
   upgradePrice: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: e64a9bdc2fdc0ae458d40b03144174ec, type: 3}
   runtimePrefab: {fileID: -5196786141760377095, guid: 4905c00c1a6da6642997b8f81ddfcac9, type: 3}
   cooldown: 4
   gasUse: 100

@@ -1,11 +1,13 @@
 
+using System;
 using System.Collections;
 using GenesisStudio;
 using UnityEngine;
 
+[Serializable]
 public class GasMeter
 {
-    private float _gas;
+    [SerializeField] private float _gas;
     private float _maxGas;
     private float _refillSpeed;    
     

@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eebaf2b998c34294b31c01c9d13f2591, type: 3}
-  m_Name: Bomb Ability
+  m_Name: Desh Ability
   m_EditorClassIdentifier: 
-  name: A_Bomb
-  actionName: Interact
+  name: A_Desh
+  actionName: Sprint
   level: 1
-  maxLevel: 5
+  maxLevel: 6
   upgradePrice: 0
-  icon: {fileID: 21300000, guid: 1ce143e98ff28b3428285f776dbf269f, type: 3}
-  runtimePrefab: {fileID: 8298531978709369956, guid: 258aa6d9c9ed7684c82e9e7248a4a193, type: 3}
-  cooldown: 2
-  gasUse: 50
-  damage: 20
+  icon: {fileID: 21300000, guid: af8af0fa88816604e8d17dd2c48b9894, type: 3}
+  runtimePrefab: {fileID: 9109587044716891824, guid: 313ce9bd4766ae1448c94374a6d91d73, type: 3}
+  cooldown: 1
+  gasUse: 20
+  damage: 0

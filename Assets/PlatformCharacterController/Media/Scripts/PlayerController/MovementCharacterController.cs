@@ -28,7 +28,16 @@ namespace PlatformCharacterController
         public float MaxDownYVelocity = 15;
 
         [Tooltip("Can the user control the player?")]
-        public bool CanControl = true;
+        private bool _controlled;
+        public bool CanControl
+        {
+            get =>  _controlled;
+            set
+            {
+                _controlled = value;
+                InputAxisController.enabled = value;
+            }
+        }
 
         [Header("Jump Settings")] [Tooltip("This allow the character to jump.")]
         public bool CanJump = true;
@@ -52,9 +61,6 @@ namespace PlatformCharacterController
 
         [Tooltip("The fuel maxima capacity for the jetpack.")]
         public float JetPackMaxFuelCapacity = 90;
-
-        [Tooltip("The current fuel for the jetpack, if 0 the jet pack off.")]
-        public float JetPackFuel;
 
         [Tooltip("The force for the jetpack, this impulse the player up.")]
         public float JetPackForce;
@@ -108,7 +114,7 @@ namespace PlatformCharacterController
         [Space(5f)] 
         public Transform rHand;
         public HitBox hitBox;
-        
+        public CinemachineInputAxisController InputAxisController;
         public ShootController shootController;
         [SerializeField] private float rayOrigin;
         [Space(5f)]
@@ -162,7 +168,6 @@ namespace PlatformCharacterController
         //abilities
         private AbilityManager _abilityManager;
         
-        
         //proprieties
         public bool IsGrounded
         {
@@ -180,7 +185,7 @@ namespace PlatformCharacterController
             get { return _controller; }
         }
 
-        public GasMeter GasContainer { get; private set; }
+        [field: SerializeField] public GasMeter GasContainer { get; private set; }
 
         public Transform CameraTransform
         {
@@ -208,9 +213,27 @@ namespace PlatformCharacterController
             }
         }
 
-        public Ray Ray => new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
+        public Ray Ray
+        {
+            get
+            {
+                var res = new Ray(transform.position + Vector3.up * rayOrigin, transform.forward);
+                // Debug.DrawRay(res.origin, res.direction, Color.chartreuse, 2f);
+                return res;
+            }
+        }
 
         public AbilityManager AbilityManager => _abilityManager;
+        
+        public float Gas
+        {
+            get => GasContainer.Gas;
+            private set
+            {
+                GasContainer.Gas = value;
+                GasUpdate();
+            }
+        }
 
 
         private void Awake()
@@ -260,14 +283,14 @@ namespace PlatformCharacterController
 
             if (_dash && !HoldingObject)
             {
-                Dash();
+                // Dash();
             }
 
             //if player can control the character
             if (CanControl)
             {
                 //jet pack
-                if (Jetpack && _flyJetPack && JetPackFuel > 0 && !HoldingObject)
+                if (Jetpack && _flyJetPack && Gas > 0 && !HoldingObject)
                 {
                     //if slow fall is active deactivate.
                     if (_slowFall)
@@ -341,7 +364,7 @@ namespace PlatformCharacterController
             if (CanControl)
             {
                 //this activate or deactivate jet pack Object and effect.
-                JetPackObject.SetActive(Jetpack && _flyJetPack && JetPackFuel > 0 && !HoldingObject);
+                JetPackObject.SetActive(Jetpack && _flyJetPack && Gas > 0 && !HoldingObject);
 
                 if (HaveSlowFall && !_isGrounded && _slowFall )
                 {
@@ -455,10 +478,11 @@ namespace PlatformCharacterController
                 }
             }
         }
-
+        
+        [ContextMenu("Dash")]
         public void Dash()
         {
-            if (!CanDash || DashCooldown > 0 || _flyJetPack)
+            if ((!CanDash || DashCooldown > 0 || _flyJetPack) && Gas < DashForce)
             {
                 return;
             }
@@ -475,11 +499,12 @@ namespace PlatformCharacterController
             _velocity += Vector3.Scale(transform.forward,
                 DashForce * new Vector3((Mathf.Log(1f / (Time.deltaTime * DragForce.x + 1)) / -Time.deltaTime),
                     0, (Mathf.Log(1f / (Time.deltaTime * DragForce.z + 1)) / -Time.deltaTime)));
+            Gas -= DashForce;
         }
 
         private void FlyByJetPack()
         {
-            JetPackFuel -= Time.deltaTime * FuelConsumeSpeed;
+            Gas -= Time.deltaTime * FuelConsumeSpeed;
             _velocity.y = 0;
             _velocity.y += Mathf.Sqrt(JetPackForce * -2f * Gravity);
         }
@@ -495,15 +520,17 @@ namespace PlatformCharacterController
         }
 
         //add fuel to the jet pack
+        [Obsolete]
         public void AddFuel(float fuel)
         {
-            JetPackFuel += fuel;
-            if (JetPackFuel > JetPackMaxFuelCapacity)
-            {
-                JetPackFuel = JetPackMaxFuelCapacity;
-            }
-
-            Debug.Log("Fuel +" + fuel);
+            Debug.Log("Add fuel is automaticly");
+            // Gas += fuel;
+            // if (Gas > JetPackMaxFuelCapacity)
+            // {
+            //     Gas = JetPackMaxFuelCapacity;
+            // }
+            //
+            // Debug.Log("Fuel +" + fuel);
         }
 
         public void ResetOriginalSpeed()
@@ -622,15 +649,16 @@ namespace PlatformCharacterController
             
         }
 
-        public void Interact(InputAction.CallbackContext context)
+        private void Interact(InputAction.CallbackContext context)
         {
-            // Debug.Log("Try interact");
-           
-            if (Physics.Raycast(Ray, out _hit, 6f))
+            if(context.canceled)
             {
-                if (_hit.transform.TryGetComponent(out AbilityUpgrade _abilityUpgrade))
+                if (Physics.Raycast(Ray, out _hit, 6f))
                 {
-                    _abilityUpgrade.Interact(this);
+                    if (_hit.transform.TryGetComponent(out IInteractable interactable))
+                    {
+                        interactable.Interact(this);
+                    }
                 }
             }
         }
@@ -664,6 +692,8 @@ namespace PlatformCharacterController
 
         public void Initialize()
         {
+            _controlled = true;
+            
             Cursor.lockState = CursorLockMode.Locked;
             
             _inventory = new Inventory();

@@ -30,13 +30,7 @@ namespace Abilities
                 yield return null;
             }
 
-            float r = 0f;
-            Collider[] colliders = new Collider[6];
-            while (r < maxRadius)
-            {
-                r += force/5 * Time.deltaTime;
-                colliders = Physics.OverlapSphere(_controller.LowZonePosition.position, r, damageableLayer);
-            }
+            Collider[] colliders = Physics.OverlapSphere(_controller.LowZonePosition.position, maxRadius, damageableLayer);
             foreach (var damageable in colliders)
             {
                 if(damageable.TryGetComponent(out IDamageable component))

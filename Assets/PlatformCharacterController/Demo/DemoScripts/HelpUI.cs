@@ -17,7 +17,7 @@ namespace PlatformCharacterController
         {
             if (Player)
             {
-                JetPackFuel.text = ((int) Player.JetPackFuel).ToString();
+                JetPackFuel.text = ((int) Player.Gas).ToString();
             }
         }
 

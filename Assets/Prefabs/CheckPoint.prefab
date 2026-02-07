@@ -59,14 +59,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4065209566679603916}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.35360628, z: -0, w: 0.9353944}
-  m_LocalPosition: {x: 210.76, y: 189.91, z: 310}
-  m_LocalScale: {x: 1.6146, y: 1, z: 1.5152}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4005667163127875057}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: -41.416, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5540669547877546419
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -95,6 +95,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -116,6 +118,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -139,8 +142,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0920901, y: 2.8092651, z: 1}
-  m_Center: {x: 0.046045195, y: 0.90463257, z: -0.00000000208713}
+  m_Size: {x: 4.0663147, y: 2.8092651, z: 1}
+  m_Center: {x: -0.06418508, y: 0.90463257, z: 0}
 --- !u!114 &8210132595825252902
 MonoBehaviour:
   m_ObjectHideFlags: 0
